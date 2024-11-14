@@ -1,7 +1,7 @@
 {% extends 'templates.html' %}
 
 {% block conteudo %}
-    {% for funcionario in lista_funcionario %}
+    {% for funcionario in var_funcionario %}
         <div class="card">
             <p>{{funcionario.nome_funcionario}}</p>
             <p>{{funcionario.CPF}}</p>

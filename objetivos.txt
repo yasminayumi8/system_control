@@ -1,0 +1,9 @@
+- CRUD
+
+- detalhes
+
+- filtro
+
+- dashboard (produtos, fornecedores e funcionarios mais presentes em movimentacoes
+
+-

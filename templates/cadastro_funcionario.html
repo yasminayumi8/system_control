@@ -1,14 +1,14 @@
 {% extends 'templates.html' %}
 {% block conteudo %}
-<form action="{{ url_for('cadastro_funcionario') }}" method="POST" class="pag">
+<form action="{{ url_for('cadastro_funcionarios_func') }}" method="POST" class="pag">
     <label>Nome do Funcionario: </label>
     <input type="text" name="form_nome_funcionario">
     <label>CPF:</label>
-    <input type="text" name="form_CPF">
+    <input type="number" name="form_CPF">
     <label>Salario:</label>
-    <input type="text" name="form_salario">
+    <input type="number" name="form_salario">
     <hr>
     <button>Adicionar</button>
-    <button><a href="{{ url_for('lista_funcionario') }}">Cancelar</a></button>
+    <button><a href="{{ url_for('funcionarios_func') }}">Cancelar</a></button>
 </form>
 {% endblock %}
