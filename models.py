@@ -1,5 +1,5 @@
 #importar biblioteca.
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Float
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Float, Boolean, DateTime
 
 #importar session e sessionmaker.
 from sqlalchemy.orm import scoped_session, sessionmaker, declarative_base, relationship
@@ -45,14 +45,14 @@ class Produto(Base):
     nome_produto = Column(String(40), nullable=False, index =True)
     quantidade = Column(Integer, nullable=False, index=True)
     valor = Column(Float, nullable=False, index=True)
-    categoria = Column(String(40), nullable=False, index=True)
+    # categoria = Column(String(40), nullable=False, index=True)
     fornecedor = Column(String(40), nullable=False, index=True)
-    data = Column(String(11), nullable=False, index =True)
-    Descricao = Column(String(40), nullable=False, index=True)
+    # data = Column(String(11), nullable=False, index =True)
+    descricao = Column(String(40))
     categoria_produto = relationship('Categoria')
 
     def __repr__(self):
-        return '<produtos: {} {}>'.format(self.nome_produto, self.ID_produto, self.categoria, self.fornecedor, self.data, self.valor, self.Descricao)
+        return '<produtos: {} #{}>'.format(self.nome_produto, self.ID_produto)
 
     def save(self):
         db_session.add(self)
@@ -68,10 +68,8 @@ class Produto(Base):
             'nome': self.nome_produto,
             'quantidade': self.quantidade,
             'valor': self.valor,
-            'categoria': self.categoria,
             'fornecedor': self.fornecedor,
-            'data': self.data,
-            'descricao': self.Descricao,
+            'descricao': self.descricao,
         }
         return dados_produto
 
@@ -103,7 +101,6 @@ class Funcionario(Base):
         }
         return dados_funcionario
 
-
 class Movimentacao(Base):
     __tablename__ = 'movimentacao'
     quantidade = Column(Integer, nullable=False, index=True)
@@ -112,7 +109,7 @@ class Movimentacao(Base):
     produto_id = Column(Integer, ForeignKey('produtos.ID_produto'))
     funcionario_id = Column(Integer, ForeignKey('funcionarios.ID_funcionario'))
     data1 = Column(String(11), nullable=False, index=True)
-    status = Column(String(3), nullable=False, index=True)
+    status = Column(Boolean, nullable=False, index=True, default=False)
     produto_relacao = relationship('Produto')
     funcionario_relacao = relationship('Funcionario')
 
