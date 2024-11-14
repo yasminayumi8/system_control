@@ -79,7 +79,7 @@ class Produto(Base):
 
 class Funcionario(Base):
     __tablename__ = 'funcionarios'
-    ID_funcionario = Column(Integer , primary_key=True)
+    ID_funcionario = Column(Integer, primary_key=True)
     categoria_id = Column(Integer, ForeignKey('categorias.ID_categoria'))
     nome_funcionario = Column(String(40), nullable=False, index=True)
     CPF = Column(String(11), nullable=False, index=True, unique=True)
