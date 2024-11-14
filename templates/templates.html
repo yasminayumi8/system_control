@@ -14,32 +14,35 @@
     </header>
     <nav>
         <div class="menu">
-           <a href="{{ url_for('cadastro_categoria') }}"> Cadastro da categoria </a>
+           <a href="{{url_for('cadastro_categorias_func')}}"> Cadastro da categoria </a>
         </div>
         <div class="menu">
-            <a href="{{ url_for('cadastro_funcionario') }}"> Cadastro do funcionario</a>
+            <a href="{{url_for('cadastro_funcionarios_func')}}"> Cadastro do funcionario</a>
         </div>
         <div class="menu">
-             <a href="{{ url_for('cadastro_movimentacao') }}"> Cadastro da Movimentação</a>
+             <a href=""> Cadastro da Movimentação</a>
         </div>
         <div class="menu">
-             <a href="{{ url_for('cadastro_produto') }}"> Cadastro do produto</a>
+             <a href=""> Cadastro do produto</a>
         </div>
         <div class="menu">
-             <a href="{{ url_for('lista_categoria') }}"> Lista categoria</a>
+             <a href="{{ url_for('categorias_func') }}"> Lista categoria</a>
         </div>
         <div class="menu">
-             <a href="{{ url_for('lista_funcionario') }}"> Lista funcionario</a>
+             <a href="{{ url_for('funcionarios_func') }}"> Lista funcionario</a>
         </div>
         <div class="menu">
-             <a href="{{ url_for('lista_movimentacao') }}"> Lista movimentação</a>
+             <a href="{{ url_for('movimentacao_func') }}"> Lista movimentação</a>
         </div>
         <div class="menu">
-             <a href="{{ url_for('lista_produto') }}"> Lista produto</a>
+             <a href="{{ url_for('produtos_func') }}"> Lista produto</a>
         </div>
 
     </nav>
     <main>
+        {%- for mens in get_flashed_messages()%}
+            <p>{{mens}}</p>
+        {%- endfor %}
         {% block conteudo %}
         {% endblock %}
     </main>

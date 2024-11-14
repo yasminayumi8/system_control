@@ -104,7 +104,6 @@ class Funcionario(Base):
 class Movimentacao(Base):
     __tablename__ = 'movimentacao'
     quantidade = Column(Integer, nullable=False, index=True)
-    produto = Column(String(40), nullable=False, index=True)
     ID_movimentacao = Column(Integer,primary_key=True)
     produto_id = Column(Integer, ForeignKey('produtos.ID_produto'))
     funcionario_id = Column(Integer, ForeignKey('funcionarios.ID_funcionario'))

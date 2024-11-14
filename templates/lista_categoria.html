@@ -1,9 +1,9 @@
 {% extends 'templates.html' %}
 
 {% block conteudo %}
-    {% for categoria in lista_categoria %}
+    {% for categoria in var_categoria %}
         <div class="card">
-            <p>{{categoria.nome_cat}}</p>
+            <p># {{ categoria.ID_categoria }} {{ categoria.nome_cat }}</p>
         </div>
     {% endfor%}
 {% endblock %}
