@@ -1,0 +1,129 @@
+*{
+   /*vai colar na tela-sem borda do pc*/
+   margin: 0;
+   padding: 0;
+}
+
+
+body, html {
+   height: 100vh;
+   font-family: "Californian FB";
+   font-size: 20px;
+   background-color: #F2BE22;
+}
+
+
+li, a{
+   color:black;
+   text-decoration: none;
+
+
+}
+
+
+a:hover{
+   color: black;
+}
+
+
+
+
+.container{
+   display: block;
+   /* altura*/
+   height: 100vh;
+   vertical-align: top;
+
+
+}
+
+
+header {
+   background-color: #F26398;
+   display: block;
+   height: 100px;
+   text-align: center;
+   color: white;
+   font-size: 35px;
+}
+
+
+nav {
+   background-color: #C252F2;
+   display: inline-block;
+   height: 1000%;
+   width: 10%;
+   color: white;
+}
+
+
+main{
+    background-color: #F2BE22;
+   display: inline-block;
+   /*largura da tela*/
+   width: 89%;
+   /* altura*/
+   height: 100%;
+   vertical-align: top;
+   color: white;
+}
+
+
+.card{
+   background-color: #eaa677;
+   /*inline-block da pra mudar o tamanho*/
+
+
+   height: 200px;
+   width: 200px;
+   border-radius: 10px;
+   margin: 10px;
+   font-size: 10px;
+   padding: 10px;
+   font-size: 20px;
+   /*para organizar deixar alinhado*/
+   float: left;
+
+
+}
+
+
+
+
+.menu{
+   font-size: 10px;
+   background-color: #85F238;
+   /*inline-block da pra mudar o tamanho*/
+   height: 60px;
+   width: 100px;
+   border-radius: 10px;
+   margin: 10px;
+   padding: 10px;
+   font-size: 20px;
+   /*para organizar deixar alinhado*/
+   float: left;
+   text-align: center;
+}
+
+
+.menu:hover{
+   background-color: white;
+   border: 2px solid black;
+}
+
+
+.card:hover{
+   background-color: #af6c36;
+}
+.pag {
+   background-color: #F26A1B;
+   border-radius: 10px;
+   height: 300px;
+   width: 180px;
+   margin: 10px;
+   font-size: 10px;
+   padding: 10px;
+   font-size: 20px;
+   /*para organizar deixar alinhado*/
+   float: left;
+}
