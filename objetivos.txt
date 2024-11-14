@@ -1,4 +1,5 @@
-- CRUD
+- CRUD (verificar se produto/categoria/ existe no cadastro, opção de desativar funcionario,
+
 
 - detalhes
 

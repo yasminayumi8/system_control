@@ -7,8 +7,11 @@
     <input type="text" name="form_produto">
     <label>Data:</label>
     <input type="text" name="form_data1">
-    <label>Status:</label>
-    <input type="text" name="form_status">
+    <p>Tipo:</p>
+    <input id="entrada" type="radio" name="tipo_movimentacao" value="entrada">
+    <label for="entrada">Entrada</label>
+    <input id="saida" type="radio" name="tipo_movimentacao" value="saida">
+    <label for="saida">Saída</label>
     <hr>
     <button>Adicionar</button>
     <button><a href="{{ url_for('lista_movimentacao') }}">Cancelar</a></button>

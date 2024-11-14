@@ -52,7 +52,7 @@ def produtos_func():
 
     # dicion = dicionario_colunas_cliente()
     # numero_resultados = len(resultado)
-    return render_template('lista_produto.html', var_funcionario=lista_produtos)
+    return render_template('lista_produto.html', var_produto=lista_produtos)
 
 
 @app.route('/movimentacao', methods=['GET', 'POST'])
@@ -108,6 +108,36 @@ def cadastro_funcionarios_func():
                 except sqlalchemy.exc.IntegrityError:
                     flash('Algo ocorreu errado! Verifique se os campos estão corretos')
     return render_template('cadastro_funcionario.html')
+
+
+@app.route('/produtos/cadastro', methods=['GET', 'POST'])
+def cadastro_produtos_func():
+    if request.method == "POST":
+        nome_form = request.form['form_nome_produto']
+        # qtde = request.form['form_quantidade']
+        id_categoria = request.form['form_id_categoria']
+        fornecedor = request.form['form_fornecedor']
+        descricao = request.form['form_descricao']
+
+        if not nome_form or not id_categoria or not fornecedor or not descricao or not qtde:
+            flash('Todos os campos devem estar preenchidos!', 'error')
+        else:
+            id_categoria_ = select(Categoria).where(Categoria.ID_categoria == id_categoria)
+            id_categoria_ = db_session.execute(id_categoria_).scalar()
+            if not id_categoria_:
+                flash('Não existe uma categoria com esse ID cadastrado', 'error')
+            else:
+                form_add = Produto(nome_produto=nome_form,
+                                   # quantidade=int(qtde),
+                                   descricao=descricao,
+                                   fornecedor=fornecedor,
+                                   categoria_id=int(id_categoria)
+                                   )
+                form_add.save()
+                db_session.close()
+                flash('Produto cadastrado com sucesso!', 'success')
+
+    return render_template('cadastro_produto.html')
 
 
 if __name__ == '__main__':

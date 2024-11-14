@@ -5,7 +5,7 @@ from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Float
 from sqlalchemy.orm import scoped_session, sessionmaker, declarative_base, relationship
 
 #configurar a conexão de banco.
-engine = create_engine('sqlite:///banco.sqlite3')
+engine = create_engine('sqlite:///base_estoque.sqlite3')
 
 #gerenciar sessao com banco de dados.
 db_session = scoped_session(sessionmaker(bind=engine))
@@ -32,7 +32,7 @@ class Categoria(Base):
 
     def serialize_categoria(self):
         dados_categoria = {
-            'id_categoria': self.ID_categoria,
+            'ID_categoria': self.ID_categoria,
             'nome_cat': self.nome_cat,
         }
         return dados_categoria
@@ -43,8 +43,8 @@ class Produto(Base):
     ID_produto = Column(Integer, primary_key=True)
     categoria_id = Column(Integer, ForeignKey('categorias.ID_categoria'))
     nome_produto = Column(String(40), nullable=False, index =True)
-    quantidade = Column(Integer, nullable=False, index=True)
-    valor = Column(Float, nullable=False, index=True)
+    quantidade = Column(Integer, nullable=True, index=True)
+    # valor = Column(Float, nullable=False, index=True)
     # categoria = Column(String(40), nullable=False, index=True)
     fornecedor = Column(String(40), nullable=False, index=True)
     # data = Column(String(11), nullable=False, index =True)
@@ -64,8 +64,8 @@ class Produto(Base):
 
     def serialize_produto(self):
         dados_produto = {
-            'id_produto': self.ID_produto,
-            'nome': self.nome_produto,
+            'ID_produto': self.ID_produto,
+            'nome_produto': self.nome_produto,
             'quantidade': self.quantidade,
             'valor': self.valor,
             'fornecedor': self.fornecedor,
@@ -94,8 +94,8 @@ class Funcionario(Base):
 
     def serialize_funcionario(self):
         dados_funcionario = {
-            'id_funcionario': self.ID_funcionario,
-            'nome': self.nome_funcionario,
+            'ID_funcionario': self.ID_funcionario,
+            'nome_funcionario': self.nome_funcionario,
             'CPF': self.CPF,
             'salario': self.salario,
         }
@@ -125,11 +125,10 @@ class Movimentacao(Base):
 
     def serialize_movimentacao(self):
         dados_movimentacao = {
-            'id_movimentacao': self.ID_movimentacao,
+            'ID_movimentacao': self.ID_movimentacao,
             'data1': self.data1,
             'status': self.status,
             'quantidade': self.quantidade,
-            'produto': self.produto,
             'funcionario_id': self.funcionario_id,
             'produto_id': self.produto_id,
         }

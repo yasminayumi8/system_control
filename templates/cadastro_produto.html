@@ -1,20 +1,16 @@
 {% extends 'templates.html' %}
 {% block conteudo %}
-<form action="{{ url_for('cadastro_produto') }}" method="POST" class="pag">
+<form action="{{ url_for('cadastro_produtos_func') }}" method="POST" class="pag">
     <label>Nome Produto: </label>
     <input type="text" name="form_nome_produto">
-    <label>Quantidade:</label>
-    <input type="text" name="form_quantidade">
-    <label>Valor:</label>
-    <input type="text" name="form_valor">
+<!--    <label>Quantidade:</label>-->
+<!--    <input type="number" name="form_quantidade">-->
     <label>Categoria:</label>
-    <input type="text" name="form_categoria">
+    <input type="number" name="form_id_categoria">
      <label>Fornecedor:</label>
     <input type="text" name="form_fornecedor">
-    <label>Data:</label>
-    <input type="text" name="form_data">
     <label>Descricao:</label>
-    <input type="text" name="form_Descricao">
+    <input type="text" name="form_descricao">
     <hr>
     <button>Adicionar</button>
     <button><a href="{{ url_for('lista_produto') }}">Cancelar</a></button>
