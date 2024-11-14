@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'templates.html' %}
 
-</body>
-</html>
+{% block conteudo %}
+    {% for categoria in lista_categoria %}
+        <div class="card">
+            <p>{{categoria.nome_cat}}</p>
+        </div>
+    {% endfor%}
+{% endblock %}

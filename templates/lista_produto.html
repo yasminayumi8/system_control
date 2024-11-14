@@ -1,10 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'templates.html' %}
 
-</body>
-</html>
+{% block conteudo %}
+    {% for produto in lista_produto %}
+        <div class="card">
+            <p>{{produto.nome_produto}}</p>
+            <p>{{produto.quantidade}}</p>
+            <p>{{produto.valor}}</p>
+            <p>{{produto.categoria}}</p>
+            <p>{{produto.fornecedor}}</p>
+            <p>{{produto.data}}</p>
+            <p>{{produto.Descricao}}</p>
+        </div>
+    {% endfor%}
+{% endblock %}

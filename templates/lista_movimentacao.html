@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'templates.html' %}
 
-</body>
-</html>
+{% block conteudo %}
+    {% for movimentacao in lista_movimentacao %}
+        <div class="card">
+            <p>{{movimentacao.quantidade}}</p>
+            <p>{{movimentacao.produto}}</p>
+            <p>{{movimentacao.data1}}</p>
+            <p>{{movimentacao.status}}</p>
+        </div>
+    {% endfor%}
+{% endblock %}
