@@ -1,19 +1,22 @@
 {% extends 'templates.html' %}
 {% block conteudo %}
-<form action="{{ url_for('cadastro_movimentacao') }}" method="POST" class="pag">
+<form action="{{ url_for('cadastro_movimentacao_func') }}" method="POST" class="pag">
     <label>Quantidade: </label>
-    <input type="text" name="form_quantidade">
-    <label>Porduto:</label>
-    <input type="text" name="form_produto">
+    <input type="number" name="form_quantidade">
+    <label>ID Produto:</label>
+    <input type="number" name="form_produto">
+    <label>ID Funcionário:</label>
+    <input type="number" name="form_funcionario">
     <label>Data:</label>
-    <input type="text" name="form_data1">
+    <input type="number" name="form_data1">
     <p>Tipo:</p>
-    <input id="entrada" type="radio" name="tipo_movimentacao" value="entrada">
+
+    <input id="entrada" type="radio" name="tipo_movimentacao" value="1">
     <label for="entrada">Entrada</label>
-    <input id="saida" type="radio" name="tipo_movimentacao" value="saida">
+    <input id="saida" type="radio" name="tipo_movimentacao" value="0">
     <label for="saida">Saída</label>
     <hr>
     <button>Adicionar</button>
-    <button><a href="{{ url_for('lista_movimentacao') }}">Cancelar</a></button>
+    <button><a href="{{ url_for('movimentacao_func') }}">Cancelar</a></button>
 </form>
 {% endblock %}

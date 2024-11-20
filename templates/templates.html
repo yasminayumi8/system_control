@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>System Control</title>
     <link rel="stylesheet" href="/static/templates.css">
 </head>
 <body>
@@ -21,10 +21,10 @@
             <a href="{{url_for('cadastro_funcionarios_func')}}"> Cadastro do funcionario</a>
         </div>
         <div class="menu">
-             <a href=""> Cadastro da Movimentação</a>
+             <a href="{{url_for('cadastro_movimentacao_func')}}"> Cadastro da Movimentação</a>
         </div>
         <div class="menu">
-             <a href=""> Cadastro do produto</a>
+             <a href="{{url_for('cadastro_produtos_func')}}"> Cadastro do produto</a>
         </div>
         <div class="menu">
              <a href="{{ url_for('categorias_func') }}"> Lista categoria</a>

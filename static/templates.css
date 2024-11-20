@@ -7,7 +7,7 @@
 
 body, html {
    height: 100vh;
-   font-family: "Californian FB";
+   font-family: "Franklin Gothic Heavy", sans-serif;
    font-size: 20px;
    background-color: #F2BE22;
 }
@@ -39,21 +39,27 @@ a:hover{
 
 
 header {
-   background-color: #F26398;
+   background-color: #9363f2;
    display: block;
    height: 100px;
+   width: 100vw;
    text-align: center;
    color: white;
    font-size: 35px;
+   position: fixed;
+   top: 0;
+
 }
 
 
 nav {
-   background-color: #C252F2;
+   background-color: #5100ff;
    display: inline-block;
-   height: 1000%;
-   width: 10%;
+   height: 100vh;
+   width: 10vw;
    color: white;
+   position: fixed;
+   top: 100px;
 }
 
 
@@ -63,14 +69,16 @@ main{
    /*largura da tela*/
    width: 89%;
    /* altura*/
-   height: 100%;
+   height: 1000vh;
    vertical-align: top;
    color: white;
+   float: right;
+   margin-top: 100px;
 }
 
 
 .card{
-   background-color: #eaa677;
+   background-color: #5a8883;
    /*inline-block da pra mudar o tamanho*/
 
 
@@ -78,24 +86,28 @@ main{
    width: 200px;
    border-radius: 10px;
    margin: 10px;
-   font-size: 10px;
-   padding: 10px;
    font-size: 20px;
+   padding: 10px;
+   font-family: Bahnschrift, sans-serif;
    /*para organizar deixar alinhado*/
    float: left;
 
 
 }
 
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
 
-
+}
+body::-webkit-scrollbar {
+    display: none;
+}
 
 .menu{
-   font-size: 10px;
    background-color: #85F238;
    /*inline-block da pra mudar o tamanho*/
    height: 60px;
-   width: 100px;
+   width: 8vw;
    border-radius: 10px;
    margin: 10px;
    padding: 10px;
@@ -108,22 +120,25 @@ main{
 
 .menu:hover{
    background-color: white;
-   border: 2px solid black;
+   /*border: 2px solid black;*/
+   transition: transform .2s;
+   transform: scale(0.8);
 }
+
 
 
 .card:hover{
-   background-color: #af6c36;
+   background-color: #77b6af;
 }
-.pag {
-   background-color: #F26A1B;
-   border-radius: 10px;
-   height: 300px;
-   width: 180px;
-   margin: 10px;
-   font-size: 10px;
-   padding: 10px;
-   font-size: 20px;
-   /*para organizar deixar alinhado*/
-   float: left;
-}
+/*.pag {*/
+/*   background-color: #51f21b;*/
+/*   border-radius: 10px;*/
+/*   height: 300px;*/
+/*   width: 180px;*/
+/*   margin: 10px;*/
+/*   font-size: 10px;*/
+/*   padding: 10px;*/
+/*   font-size: 20px;*/
+/*   !*para organizar deixar alinhado*!*/
+/*   float: left;*/
+/*}*/

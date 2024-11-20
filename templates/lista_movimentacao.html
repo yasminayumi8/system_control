@@ -4,10 +4,15 @@
     {% for movimentacao, produto, funcionario in var_movimentacao %}
         <div class="card">
             <p>{{produto.nome_produto}} #{{produto.ID_produto}}</p>
-
+            <p>Funcionário: {{funcionario.nome_funcionario}}</p>
             <p>Qtde.:{{movimentacao.quantidade}}</p>
             <p>Data:{{movimentacao.data1}}</p>
-            <p>{{movimentacao.status}}</p>
+            {% if movimentacao.status == True: %}
+                <p>Entrada</p>
+            {% endif %}
+            {% if movimentacao.status == False: %}
+                <p>Saída</p>
+            {% endif %}
         </div>
     {% endfor%}
 {% endblock %}

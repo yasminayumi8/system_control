@@ -119,7 +119,7 @@ def cadastro_produtos_func():
         fornecedor = request.form['form_fornecedor']
         descricao = request.form['form_descricao']
 
-        if not nome_form or not id_categoria or not fornecedor or not descricao or not qtde:
+        if not nome_form or not id_categoria or not fornecedor or not descricao:
             flash('Todos os campos devem estar preenchidos!', 'error')
         else:
             id_categoria_ = select(Categoria).where(Categoria.ID_categoria == id_categoria)
@@ -138,6 +138,68 @@ def cadastro_produtos_func():
                 flash('Produto cadastrado com sucesso!', 'success')
 
     return render_template('cadastro_produto.html')
+
+
+@app.route('/movimentacao/cadastro', methods=['GET', 'POST'])
+def cadastro_movimentacao_func():
+    if request.method == "POST":
+        qtde = request.form['form_quantidade']
+        id_produto = request.form['form_produto']
+        id_funcionario = request.form['form_funcionario']
+        data = request.form['form_data1']
+        tipo_movimentacao = request.form['tipo_movimentacao']
+        print(tipo_movimentacao)
+
+        if not qtde or not id_produto or not data or not tipo_movimentacao:
+            flash('Todos os campos devem estar preenchidos!', 'error')
+        else:
+            id_produto_sql = select(Produto).where(Produto.ID_produto == id_produto)
+            id_produto_ = db_session.execute(id_produto_sql).scalar()
+            if not id_produto_:
+                flash('Não existe um produto com esse ID cadastrado', 'error')
+            else:
+                id_funcionario_sql = select(Funcionario).where(Funcionario.ID_funcionario == id_funcionario)
+                id_funcionario_ = db_session.execute(id_funcionario_sql).scalar()
+                if not id_funcionario_:
+                    flash('Não existe um funcionario com esse ID cadastrado', 'error')
+                else:
+                    try:
+                        qtde_ = int(qtde)
+                    except ValueError:
+                        flash('Quantidade deve ser um inteiro!', 'error')
+                    data_ = '{}/{}/{}'.format(data[:2], data[2:4], data[4:])
+                    form_add = Movimentacao(quantidade=int(qtde),
+                                       funcionario_id=int(id_funcionario),
+                                       produto_id=int(id_produto),
+                                       data1=data_,
+                                       status=bool(int(tipo_movimentacao))
+                                       )
+                    form_add.save()
+                    # Salvar a movimentação no banco de dados
+                    form_add.save()  # Aqui você adiciona a movimentação ao banco.
+
+                    # Atualizar a quantidade do produto
+                    try:
+                        # Se o tipo de movimentação for entrada (tipo_movimentacao == "1"), somamos
+                        if tipo_movimentacao == "1":  # Entrada
+                            id_produto_.quantidade = (id_produto_.quantidade or 0) + int(qtde)
+                        # Se o tipo de movimentação for saída (tipo_movimentacao == "0"), subtraímos
+                        elif tipo_movimentacao == "0":  # Saída
+                            id_produto_.quantidade = (id_produto_.quantidade or 0) - int(qtde)
+
+                        # Salvar as alterações no banco
+                        db_session.commit()
+
+                        # Mensagem de sucesso ao usuário
+                        flash('Movimentação cadastrada e quantidade do produto atualizada com sucesso!', 'success')
+                    except Exception as e:
+                        # Desfazer alterações se ocorrer um erro
+                        db_session.rollback()
+                        flash(f'Erro ao atualizar a quantidade do produto: {e}', 'error')
+
+                    db_session.close()
+
+    return render_template('cadastro_movimentacao.html')
 
 
 if __name__ == '__main__':
