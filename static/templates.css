@@ -9,7 +9,7 @@ body, html {
    height: 100vh;
    font-family: "Franklin Gothic Heavy", sans-serif;
    font-size: 20px;
-   background-color: #F2BE22;
+   background-color: #000000;
 }
 
 
@@ -35,11 +35,12 @@ a:hover{
    vertical-align: top;
 
 
+
 }
 
 
 header {
-   background-color: #9363f2;
+   background-color: #a6a6a6;
    display: block;
    height: 100px;
    width: 100vw;
@@ -53,10 +54,10 @@ header {
 
 
 nav {
-   background-color: #5100ff;
+   background-color: #b2b2b2;
    display: inline-block;
    height: 100vh;
-   width: 10vw;
+   width: 12vw;
    color: white;
    position: fixed;
    top: 100px;
@@ -64,10 +65,10 @@ nav {
 
 
 main{
-    background-color: #F2BE22;
+    backgrounna-color: #000000;
    display: inline-block;
    /*largura da tela*/
-   width: 89%;
+   width: 75%;
    /* altura*/
    height: 1000vh;
    vertical-align: top;
@@ -78,7 +79,7 @@ main{
 
 
 .card{
-   background-color: #5a8883;
+   background-color: #4d5b5b;
    /*inline-block da pra mudar o tamanho*/
 
 
@@ -104,10 +105,10 @@ body::-webkit-scrollbar {
 }
 
 .menu{
-   background-color: #85F238;
+   background-color: #fffcfc;
    /*inline-block da pra mudar o tamanho*/
    height: 60px;
-   width: 8vw;
+   width: 9vw;
    border-radius: 10px;
    margin: 10px;
    padding: 10px;
