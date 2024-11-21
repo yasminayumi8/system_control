@@ -18,6 +18,10 @@ def home():
     return render_template('templates.html')
 
 
+@app.route('/cadastro', methods=['GET'])
+def pagina_cadastro_func():
+    return render_template('pagina-cadastro.html')
+
 @app.route('/categoria', methods=['GET', 'POST'])
 def categorias_func():
     lista_categoria = select(Categoria).select_from(Categoria)
@@ -67,7 +71,7 @@ def movimentacao_func():
     return render_template('lista_movimentacao.html', var_movimentacao=lista_movimentacao)
 
 
-@app.route('/categoria/cadastro', methods=['GET', 'POST'])
+@app.route('/cadastro/categoria', methods=['GET', 'POST'])
 def cadastro_categorias_func():
     if request.method == "POST":
         nome = request.form['form_nome_cat']
@@ -83,7 +87,7 @@ def cadastro_categorias_func():
     return render_template('cadastro_categoria.html')
 
 
-@app.route('/funcionario/cadastro', methods=['GET', 'POST'])
+@app.route('/cadastro/funcionario', methods=['GET', 'POST'])
 def cadastro_funcionarios_func():
     if request.method == "POST":
         nome = request.form['form_nome_funcionario']
@@ -110,8 +114,14 @@ def cadastro_funcionarios_func():
     return render_template('cadastro_funcionario.html')
 
 
-@app.route('/produtos/cadastro', methods=['GET', 'POST'])
+@app.route('/cadastro/produtos', methods=['GET', 'POST'])
 def cadastro_produtos_func():
+    lista_cat = select(Categoria)
+    lista_categoria = db_session.execute(lista_cat).scalars()
+    resultado = []
+    print(lista_categoria)
+    for cat in lista_categoria:
+        resultado.append(cat.serialize_categoria())
     if request.method == "POST":
         nome_form = request.form['form_nome_produto']
         # qtde = request.form['form_quantidade']
@@ -119,29 +129,42 @@ def cadastro_produtos_func():
         fornecedor = request.form['form_fornecedor']
         descricao = request.form['form_descricao']
 
-        if not nome_form or not id_categoria or not fornecedor or not descricao:
+        if not nome_form or not id_categoria or not fornecedor:
             flash('Todos os campos devem estar preenchidos!', 'error')
         else:
-            id_categoria_ = select(Categoria).where(Categoria.ID_categoria == id_categoria)
-            id_categoria_ = db_session.execute(id_categoria_).scalar()
-            if not id_categoria_:
-                flash('Não existe uma categoria com esse ID cadastrado', 'error')
-            else:
-                form_add = Produto(nome_produto=nome_form,
-                                   # quantidade=int(qtde),
-                                   descricao=descricao,
-                                   fornecedor=fornecedor,
-                                   categoria_id=int(id_categoria)
-                                   )
-                form_add.save()
-                db_session.close()
-                flash('Produto cadastrado com sucesso!', 'success')
+            # id_categoria_ = select(Categoria).where(Categoria.ID_categoria == id_categoria)
+            # id_categoria_ = db_session.execute(id_categoria_).scalar()
+            # if not id_categoria_:
+            #     flash('Não existe uma categoria com esse ID cadastrado', 'error')
+            # else:
+            form_add = Produto(nome_produto=nome_form,
+                               # quantidade=int(qtde),
+                               descricao=descricao,
+                               fornecedor=fornecedor,
+                               categoria_id=int(id_categoria)
+                               )
+            form_add.save()
+            db_session.close()
+            flash('Produto cadastrado com sucesso!', 'success')
 
-    return render_template('cadastro_produto.html')
+    return render_template('cadastro_produto.html', categorias=resultado)
 
 
-@app.route('/movimentacao/cadastro', methods=['GET', 'POST'])
+@app.route('/cadastro/movimentacao', methods=['GET', 'POST'])
 def cadastro_movimentacao_func():
+    lista_funcionarios = select(Funcionario).select_from(Funcionario)
+    lista_funcionarios = db_session.execute(lista_funcionarios).scalars()
+    resultado_funcionario = []
+    print(lista_funcionarios)
+    for func in lista_funcionarios:
+        resultado_funcionario.append(func.serialize_funcionario())
+
+    lista_produtos = select(Produto).select_from(Produto)
+    lista_produtos = db_session.execute(lista_produtos).scalars()
+    resultado_produto = []
+    for produto in lista_produtos:
+        resultado_produto.append(produto.serialize_produto())
+
     if request.method == "POST":
         qtde = request.form['form_quantidade']
         id_produto = request.form['form_produto']
@@ -185,7 +208,10 @@ def cadastro_movimentacao_func():
                             id_produto_.quantidade = (id_produto_.quantidade or 0) + int(qtde)
                         # Se o tipo de movimentação for saída (tipo_movimentacao == "0"), subtraímos
                         elif tipo_movimentacao == "0":  # Saída
-                            id_produto_.quantidade = (id_produto_.quantidade or 0) - int(qtde)
+                            if id_produto_.quantidade - int(qtde) > 0:
+                                id_produto_.quantidade = (id_produto_.quantidade or 0) - int(qtde)
+                            else:
+                                flash('Quantidade deve ser maior que 0', 'error')
 
                         # Salvar as alterações no banco
                         db_session.commit()
@@ -199,7 +225,7 @@ def cadastro_movimentacao_func():
 
                     db_session.close()
 
-    return render_template('cadastro_movimentacao.html')
+    return render_template('cadastro_movimentacao.html', funcionarios=resultado_funcionario, produtos=resultado_produto)
 
 
 if __name__ == '__main__':

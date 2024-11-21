@@ -3,10 +3,20 @@
 <form action="{{ url_for('cadastro_movimentacao_func') }}" method="POST" class="pag">
     <label>Quantidade: </label>
     <input type="number" name="form_quantidade">
-    <label>ID Produto:</label>
-    <input type="number" name="form_produto">
+
+    <label>Produto:</label>
+    <select name="form_produto">
+        {% for produto in produtos: %}
+            <option value="{{produto.ID_produto}}">{{produto.nome_produto}}</option>
+        {% endfor %}
+    </select>
+
     <label>ID Funcionário:</label>
-    <input type="number" name="form_funcionario">
+    <select name="form_id_categoria">
+        {% for funcionario in funcionarios: %}
+            <option value="{{funcionario.ID_funcionario}}">{{funcionario.nome_funcionario}}</option>
+        {% endfor %}
+    </select>
     <label>Data:</label>
     <input type="number" name="form_data1">
     <p>Tipo:</p>
@@ -17,6 +27,7 @@
     <label for="saida">Saída</label>
     <hr>
     <button>Adicionar</button>
-    <button><a href="{{ url_for('movimentacao_func') }}">Cancelar</a></button>
+    <button><a href="{{ url_for('pagina_cadastro_func') }}">Cancelar</a></button>
 </form>
+
 {% endblock %}

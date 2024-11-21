@@ -15,17 +15,7 @@
     </header>
     <nav>
         <div class="menu">
-           <a href="{{url_for('cadastro_categorias_func')}}"> Cadastro da categoria </a>
-
-        </div>
-        <div class="menu">
-            <a href="{{url_for('cadastro_funcionarios_func')}}"> Cadastro do funcionario</a>
-        </div>
-        <div class="menu">
-             <a href="{{url_for('cadastro_movimentacao_func')}}"> Cadastro da Movimentação</a>
-        </div>
-        <div class="menu">
-             <a href="{{url_for('cadastro_produtos_func')}}"> Cadastro do produto</a>
+             <a href="{{ url_for('pagina_cadastro_func') }}"> CADASTRO</a>
         </div>
         <div class="menu">
              <a href="{{ url_for('categorias_func') }}"> Lista categoria</a>
@@ -48,7 +38,6 @@
         {% block conteudo %}
         {% endblock %}
     </main>
-    <img src="" alt=""><img src="../static/Logo (1).png" height="500" width="500"/>
 </div>
 </body>
 </html>

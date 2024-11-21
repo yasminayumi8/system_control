@@ -63,9 +63,8 @@ nav {
    top: 100px;
 }
 
-
 main{
-    backgrounna-color: #000000;
+    background-color: #000000;
    display: inline-block;
    /*largura da tela*/
    width: 75%;

@@ -1,6 +1,7 @@
 {% extends 'templates.html' %}
 
 {% block conteudo %}
+    <h2>* A quantidade dos produtos em estoque é definida com as movimentações</h2>
     {% for produto, cat in var_produto %}
         <div class="card">
             <p>{{produto.nome_produto}}</p>

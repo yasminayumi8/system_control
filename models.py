@@ -67,7 +67,6 @@ class Produto(Base):
             'ID_produto': self.ID_produto,
             'nome_produto': self.nome_produto,
             'quantidade': self.quantidade,
-            'valor': self.valor,
             'fornecedor': self.fornecedor,
             'descricao': self.descricao,
         }

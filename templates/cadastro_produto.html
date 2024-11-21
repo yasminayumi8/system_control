@@ -6,13 +6,18 @@
 <!--    <label>Quantidade:</label>-->
 <!--    <input type="number" name="form_quantidade">-->
     <label>Categoria:</label>
-    <input type="number" name="form_id_categoria">
+    <select name="form_id_categoria">
+        {% for categoria in categorias: %}
+            <option value="{{categoria.ID_categoria}}">{{categoria.nome_cat}}</option>
+        {% endfor %}
+    </select>
      <label>Fornecedor:</label>
     <input type="text" name="form_fornecedor">
     <label>Descricao:</label>
     <input type="text" name="form_descricao">
     <hr>
     <button>Adicionar</button>
-    <button><a href="{{ url_for('produtos_func') }}">Cancelar</a></button>
+    <button><a href="{{ url_for('pagina_cadastro_func') }}">Cancelar</a></button>
 </form>
+
 {% endblock %}
