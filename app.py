@@ -252,7 +252,7 @@ def cadastro_movimentacao_func():
         data = request.form['form_data1']
         tipo_movimentacao = request.form['tipo_movimentacao']
         print(tipo_movimentacao)
-
+        data_replace = data.replace('-', '')
         if not qtde or not id_produto or not data or not tipo_movimentacao:
             flash('Todos os campos devem estar preenchidos!', 'error')
         else:
@@ -266,15 +266,18 @@ def cadastro_movimentacao_func():
                 if not id_funcionario_:
                     flash('Não existe um funcionario com esse ID cadastrado', 'error')
                 else:
-                    try:
-                        qtde_ = int(qtde)
-                    except ValueError:
-                        flash('Quantidade deve ser um inteiro!', 'error')
-                    data_ = '{}/{}/{}'.format(data[:2], data[2:4], data[4:])
+                    if tipo_movimentacao == '0':
+                        print('primeiro iff')
+                        if id_produto_.quantidade - int(qtde) < 0:
+                            print('segundo iff')
+
+                            flash('Não existe essa quantidade em estoque', 'error')
+
+                    data_f = '{}/{}/{}'.format(data_replace[6:], data_replace[4:6], data_replace[:4])
                     form_add = Movimentacao(quantidade=int(qtde),
                                        funcionario_id=int(id_funcionario),
                                        produto_id=int(id_produto),
-                                       data1=data_,
+                                       data1=data_f,
                                        status=bool(int(tipo_movimentacao))
                                        )
                     form_add.save()
@@ -288,10 +291,8 @@ def cadastro_movimentacao_func():
                             id_produto_.quantidade = (id_produto_.quantidade or 0) + int(qtde)
                         # Se o tipo de movimentação for saída (tipo_movimentacao == "0"), subtraímos
                         elif tipo_movimentacao == "0":  # Saída
-                            if id_produto_.quantidade - int(qtde) > 0:
-                                id_produto_.quantidade = (id_produto_.quantidade or 0) - int(qtde)
-                            else:
-                                flash('Quantidade deve ser maior que 0', 'error')
+                            id_produto_.quantidade = (id_produto_.quantidade or 0) - int(qtde)
+
 
                         # Salvar as alterações no banco
                         db_session.commit()

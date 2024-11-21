@@ -17,8 +17,9 @@
             <option value="{{funcionario.ID_funcionario}}">{{funcionario.nome_funcionario}}</option>
         {% endfor %}
     </select>
-    <label>Data:</label>
-    <input type="number" name="form_data1" maxlength="8" minlength="8">
+    <label for="dob">Data:</label>
+    <input id="dob" type="date" name="form_data1" maxlength="10" placeholder="dd/mm/aaaa">
+
     <p>Tipo:</p>
 
     <input id="entrada" type="radio" name="tipo_movimentacao" value="1">
