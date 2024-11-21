@@ -49,7 +49,6 @@ header {
    font-size: 35px;
    position: fixed;
    top: 0;
-
 }
 
 
@@ -69,7 +68,7 @@ main{
    /*largura da tela*/
    width: 75%;
    /* altura*/
-   height: 1000vh;
+   height: 100vh;
    vertical-align: top;
    color: white;
    float: right;
@@ -82,7 +81,7 @@ main{
    /*inline-block da pra mudar o tamanho*/
 
 
-   height: 200px;
+   height: 225px;
    width: 200px;
    border-radius: 10px;
    margin: 10px;
@@ -91,10 +90,27 @@ main{
    font-family: Bahnschrift, sans-serif;
    /*para organizar deixar alinhado*/
    float: left;
-
-
 }
-
+.card1{
+   background-color: #4d5b5b;
+   /*inline-block da pra mudar o tamanho*/
+   text-align: center;
+   /*height: 200px;*/
+   width: 200px;
+   border-radius: 10px;
+   /*margin: 10px;*/
+   font-size: 20px;
+   padding: 10px;
+   font-family: Bahnschrift, sans-serif;
+   /*para organizar deixar alinhado*/
+   float: left;
+   /*margin-top: 10vh;*/
+   position: fixed;
+   top: 20vh;
+}
+.card1 p{
+   padding: 5px;
+}
 input[type=number]::-webkit-inner-spin-button {
     -webkit-appearance: none;
 
@@ -142,3 +158,28 @@ body::-webkit-scrollbar {
 /*   !*para organizar deixar alinhado*!*/
 /*   float: left;*/
 /*}*/
+#home{
+    width: 60px;
+    float: right;
+    margin: 25px;
+    transition: transform .2s;
+}
+#home:hover{
+    /*width: 75px;*/
+    /*margin: 15px;*/
+    opacity: 50%;
+    transform: scale(1.5);
+}
+#cabecalho{
+   font-weight: bold;
+   display: inline-block;
+}
+form{
+   display: inline-block;
+}
+.box{
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   /*margin-top: 25vh;*/
+}

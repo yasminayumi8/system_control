@@ -1,6 +1,11 @@
-{% extends 'templates.html' %}
-
+{% extends 'templates-barra-de-pesquisa.html' %}
+{% block head %}
+    {% if pesquisa == True: %}
+        <a href="{{url_for('categorias_func')}}"><button>Remover filtro</button></a>
+    {% endif %}
+{% endblock %}
 {% block conteudo %}
+
     {% for categoria in var_categoria %}
         <div class="card">
             <p># {{ categoria.ID_categoria }} {{ categoria.nome_cat }}</p>

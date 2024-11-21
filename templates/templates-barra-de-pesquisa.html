@@ -11,8 +11,24 @@
 <body>
 <div class="container">
     <header>
-        <h1 id="cabecalho">System control</h1>
+<!--        <h1><strong>System control</strong></h1>-->
+        <form action="{{url_for('pesquisar_func', class_=class_)}}" method="post">
+            <span class="display-block">
+<!--                <h1>}</h1>-->
+                <input type="text" name="form-pesquisa" placeholder="Pesquisar">
 
+                <select name="campo">
+                    {% for value, nome in dicio.items(): %}
+                        <option value="{{value}}">{{nome}}</option>
+
+                    {% endfor %}
+                </select>
+
+                <button type="submit" class="botao">ENVIAR</button>
+            </span>
+        </form>
+        {% block head %}
+        {% endblock %}
         <a href="{{url_for('home')}}"><img id="home" src="https://static.thenounproject.com/png/2137554-200.png" alt="Logo"></a>
 
     </header>

@@ -1,6 +1,12 @@
-{% extends 'templates.html' %}
+{% extends 'templates-barra-de-pesquisa.html' %}
 
+{% block head %}
+    {% if pesquisa == True: %}
+        <a href="{{url_for('produtos_func')}}"><button>Remover filtro</button></a>
+    {% endif %}
+{% endblock %}
 {% block conteudo %}
+
     <h2>* A quantidade dos produtos em estoque é definida com as movimentações</h2>
     {% for produto, cat in var_produto %}
         <div class="card">
@@ -10,7 +16,8 @@
             <p>Categoria: {{cat.nome_cat}}</p>
             <p>Fabricante: {{produto.fornecedor}}</p>
             <p>{{produto.data}}</p>
-            <p>{{produto.Descricao}}</p>
+
+            <a href="{{url_for('produto_detalhes_func', id_produto=produto.ID_produto)}}">Mais...</a>
         </div>
     {% endfor%}
 {% endblock %}

@@ -3,6 +3,56 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from models import Categoria, Produto, db_session, Funcionario, Movimentacao
 from sqlalchemy import select
 
+
+def dicionario_colunas_movimentacao():
+    dicion = {
+        "ID_movimentacao": "ID Movimentacao",
+        "quantidade": "Quantidade",
+        "data": "Valor Consulta",
+        "status": "Entrada/Saída",
+
+        "ID_produto": "Produto ID",
+        "nome_produto": "Produto nome",
+        "fornecedor": "Fabricante do Produto",
+
+        "ID_categoria": "Categoria ID",
+        "nome_cat": "Categoria nome",
+        
+        "ID_funcionario": "Funcionario ID",
+        "nome_funcionario": "Funcionario nome"
+
+
+    }
+    return dicion
+
+
+def dicionario_colunas_funcionario():
+    dicion = {
+        "ID_funcionario": "ID Funcionario",
+        "nome_funcionario": "Nome Funcionario",
+        "CPF": "CPF",
+        "salario": "Salário"
+    }
+    return dicion
+
+
+def dicionario_colunas_categoria():
+    dicion = {
+        "ID_categoria": "ID Categoria",
+        "nome_cat": "Nome Categoria"
+    }
+    return dicion
+
+
+def dicionario_colunas_produto():
+    dicion = {
+        "ID_produto": "ID Produto",
+        "nome_produto": "Nome Produto",
+        "fornecedor": "Fabricante",
+        "nome_cat": "Nome Categoria"
+    }
+    return dicion
+
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'secret!'
@@ -30,9 +80,13 @@ def categorias_func():
     print(lista_categoria)
     for cat in lista_categoria:
         resultado.append(cat.serialize_categoria())
-    # dicion = dicionario_colunas_cliente()
-    # numero_resultados = len(resultado)
-    return render_template('lista_categoria.html', var_categoria=resultado)
+    dicion = dicionario_colunas_categoria()
+    return render_template('lista_categoria.html',
+                           var_categoria=resultado,
+                           class_=Categoria,
+                           pesquisa=False,
+                           numero_resultados=len(resultado),
+                           dicio=dicion)
 
 
 @app.route('/funcionario', methods=['GET', 'POST'])
@@ -43,9 +97,14 @@ def funcionarios_func():
     print(lista_funcionarios)
     for func in lista_funcionarios:
         resultado.append(func.serialize_funcionario())
-    # dicion = dicionario_colunas_cliente()
+    dicion = dicionario_colunas_funcionario()
     # numero_resultados = len(resultado)
-    return render_template('lista_funcionario.html', var_funcionario=resultado)
+    return render_template('lista_funcionario.html',
+                           var_funcionario=resultado,
+                           class_=Funcionario,
+                           pesquisa=False,
+                           numero_resultados=len(resultado),
+                           dicio=dicion)
 
 
 @app.route('/produto', methods=['GET', 'POST'])
@@ -53,22 +112,43 @@ def produtos_func():
     lista_produtos = select(Produto, Categoria).join(Categoria,
                                                      Produto.categoria_id == Categoria.ID_categoria)
     lista_produtos = db_session.execute(lista_produtos).fetchall()
-
+    dicion = dicionario_colunas_produto()
     # dicion = dicionario_colunas_cliente()
     # numero_resultados = len(resultado)
-    return render_template('lista_produto.html', var_produto=lista_produtos)
+    return render_template('lista_produto.html',
+                           var_produto=lista_produtos,
+                           class_=Produto,
+                           pesquisa=False,
+                           numero_resultados=len(lista_produtos),
+                           dicio=dicion)
+
+
+@app.route('/produto_<id_produto>')
+def produto_detalhes_func(id_produto):
+    lista_produtos = select(Produto, Categoria).join(
+        Categoria, Produto.categoria_id == Categoria.ID_categoria).where(
+        Produto.ID_produto == id_produto
+    )
+    lista_produtos = db_session.execute(lista_produtos).fetchone()
+    return render_template('produto-detalhes.html', var_produto=lista_produtos)
 
 
 @app.route('/movimentacao', methods=['GET', 'POST'])
 def movimentacao_func():
-    lista_movimentacao = ((select(Movimentacao, Produto, Funcionario).
-                          join(Produto, Produto.ID_produto == Movimentacao.produto_id)).
-                          join(Funcionario, Movimentacao.funcionario_id == Funcionario.ID_funcionario))
+    lista_movimentacao = select(Movimentacao, Produto, Funcionario, Categoria).join(
+        Produto, Produto.ID_produto == Movimentacao.produto_id).join(
+        Funcionario, Movimentacao.funcionario_id == Funcionario.ID_funcionario).join(
+        Categoria, Produto.categoria_id == Categoria.ID_categoria)
     lista_movimentacao = db_session.execute(lista_movimentacao).fetchall()
 
-    # dicion = dicionario_colunas_cliente()
+    dicion = dicionario_colunas_movimentacao()
     # numero_resultados = len(resultado)
-    return render_template('lista_movimentacao.html', var_movimentacao=lista_movimentacao)
+    return render_template('lista_movimentacao.html',
+                           var_movimentacao=lista_movimentacao,
+                           class_=Movimentacao,
+                           pesquisa=False,
+                           numero_resultados=len(lista_movimentacao),
+                           dicio=dicion)
 
 
 @app.route('/cadastro/categoria', methods=['GET', 'POST'])
@@ -138,7 +218,7 @@ def cadastro_produtos_func():
             #     flash('Não existe uma categoria com esse ID cadastrado', 'error')
             # else:
             form_add = Produto(nome_produto=nome_form,
-                               # quantidade=int(qtde),
+                               quantidade=0,
                                descricao=descricao,
                                fornecedor=fornecedor,
                                categoria_id=int(id_categoria)
@@ -226,6 +306,117 @@ def cadastro_movimentacao_func():
                     db_session.close()
 
     return render_template('cadastro_movimentacao.html', funcionarios=resultado_funcionario, produtos=resultado_produto)
+
+
+dicionario_classes = {
+    "<class 'models.Produto'>": Produto,
+    "<class 'models.Funcionario'>": Funcionario,
+    "<class 'models.Movimentacao'>": Movimentacao,
+    "<class 'models.Categoria'>": Categoria,
+}
+# adicionar classes
+
+
+@app.route('/pesquisar/<class_>', methods=['GET', 'POST'])
+def pesquisar_func(class_):
+
+    if request.method == 'POST':
+        campo = request.form['campo']
+        print(f'campo : {campo}')
+        classe = dicionario_classes[class_]
+        print(f'class : {classe}')
+        termo_pesquisa = request.form.get('form-pesquisa')
+        print(f'termo : {termo_pesquisa}')
+        if not campo or not termo_pesquisa:
+            flash('Por favor, selecione um campo e insira um termo de pesquisa.')
+#         tabelas que recebem FK precisam de um if específico (produto, movimentacao
+#         diferente de tabelas como categoria e funcionario
+        if classe in [Categoria, Funcionario]:
+            print('CATEGORIA / FUNCIONARIO')
+            if 'ID' not in campo:
+                print('geral')
+                consulta = select(classe).where(getattr(classe, campo).like(f"%{termo_pesquisa}%"))
+                lista_resultados = db_session.execute(consulta).scalars()
+            else:
+                print('exata')
+                consulta = select(classe).where(getattr(classe, campo) == termo_pesquisa)
+                lista_resultados = db_session.execute(consulta).scalars()
+            resultado = []
+            if classe == Categoria:
+                print('CATEGORIAaaaaaaaa')
+
+                for result in lista_resultados:
+                    resultado.append(result.serialize_categoria())
+                dicion = dicionario_colunas_categoria()
+                return render_template('lista_categoria.html',
+                                       var_categoria=resultado,
+                                       numero_resultados=len(resultado),
+                                       dicio=dicion,
+                                       class_=class_,
+                                       pesquisa=True)
+            else:
+                for result in lista_resultados:
+                    resultado.append(result.serialize_funcionario())
+                dicion = dicionario_colunas_funcionario()
+                return render_template('lista_funcionario.html',
+                                       var_funcionario=resultado,
+                                       numero_resultados=len(resultado),
+                                       dicio=dicion,
+                                       class_=class_,
+                                       pesquisa=True)
+        elif classe == Produto:
+            if campo == 'nome_cat':
+                classe = Categoria
+            if 'id' not in campo:
+                consulta = select(Produto, Categoria).join(
+                    Categoria, Produto.categoria_id == Categoria.ID_categoria).where(
+                    getattr(classe, campo).like(f"%{termo_pesquisa}%")
+                )
+            else:
+                consulta = select(Produto, Categoria).join(
+                    Categoria, Produto.categoria_id == Categoria.ID_categoria).where(
+                    getattr(classe, campo) == termo_pesquisa)
+
+            resultado = db_session.execute(consulta).fetchall()
+            dicion = dicionario_colunas_produto()
+            return render_template('lista_produto.html',
+                                   var_produto=resultado,
+                                   numero_resultados=len(resultado),
+                                   dicio=dicion,
+                                   class_=class_,
+                                   pesquisa=True)
+        elif classe == Movimentacao:
+                if campo in ['ID_produto', 'nome_produto', "fornecedor"]:
+                    classe = Produto
+                elif campo in ['ID_categoria', 'nome_cat']:
+                    classe = Categoria
+                elif campo in ['ID_funcionario', 'nome_funcionario']:
+                    classe = Funcionario
+                print(classe)
+                if 'ID' not in campo:
+                    print('geral')
+                    consulta = select(Movimentacao, Produto, Funcionario, Categoria).join(
+                        Produto, Movimentacao.produto_id == Produto.ID_produto).join(
+                        Funcionario, Movimentacao.funcionario_id == Funcionario.ID_funcionario
+                    ).join(Categoria, Produto.categoria_id == Categoria.ID_categoria).where(
+                        getattr(classe, campo).like(f"%{termo_pesquisa}%")
+                    )
+                else:
+                    print('exata')
+                    consulta = select(Movimentacao, Produto, Funcionario, Categoria).join(
+                        Produto, Movimentacao.produto_id == Produto.ID_produto).join(
+                        Funcionario, Movimentacao.funcionario_id == Funcionario.ID_funcionario
+                    ).join(Categoria, Produto.categoria_id == Categoria.ID_categoria).where(
+                        getattr(classe, campo) == termo_pesquisa)
+
+                dicion=dicionario_colunas_movimentacao()
+                resultado = db_session.execute(consulta).fetchall()
+                return render_template('lista_movimentacao.html',
+                                       var_movimentacao=resultado,
+                                       numero_resultados=len(resultado),
+                                       dicio=dicion,
+                                       class_=class_,
+                                       pesquisa=True)
 
 
 if __name__ == '__main__':

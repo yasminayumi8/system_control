@@ -1,9 +1,16 @@
-{% extends 'templates.html' %}
+{% extends 'templates-barra-de-pesquisa.html' %}
 
+{% block head %}
+    {% if pesquisa == True: %}
+        <a href="{{url_for('movimentacao_func')}}"><button>Remover filtro</button></a>
+    {% endif %}
+{% endblock %}
 {% block conteudo %}
-    {% for movimentacao, produto, funcionario in var_movimentacao %}
+
+    {% for movimentacao, produto, funcionario, cat in var_movimentacao %}
         <div class="card">
             <p>{{produto.nome_produto}} #{{produto.ID_produto}}</p>
+<!--            <p>Categoria: cat.nome_</p>-->
             <p>Funcionário: {{funcionario.nome_funcionario}}</p>
             <p>Qtde.:{{movimentacao.quantidade}}</p>
             <p>Data:{{movimentacao.data1}}</p>
