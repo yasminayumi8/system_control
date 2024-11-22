@@ -41,7 +41,7 @@ a:hover{
 }
 
 
-header {
+.headerTrue {
    background-color: #a6a6a6;
    display: block;
    height: 100px;
@@ -54,7 +54,7 @@ header {
 }
 
 
-.nav-black {
+.navTrue {
    background-color: #b2b2b2;
    display: inline-block;
    height: 100vh;
@@ -64,7 +64,7 @@ header {
    top: 100px;
 }
 
-.main-black{
+.mainTrue{
     background-color: #020101;
    display: inline-block;
    /*largura da tela*/
@@ -194,12 +194,38 @@ form{
 /*   float: right;*/
 /*   !*margin-left: 10vw;*!*/
 /*}*/
-.body-colorido{
-   background-color: cyan;
+.bodyFalse{
+   background-color: #d5b84f;
 }
-.main-colorido{
-   background-color: cyan;
+.mainFalse{
+   display: inline-block;
+   /*largura da tela*/
+   width: 75%;
+   /* altura*/
+   height: 100vh;
+   vertical-align: top;
+   color: #000000;
+   float: right;
+   margin-top: 100px;
+   background-color: #d5b84f;
 }
-.nav-colorido{
+.navFalse{
+   display: inline-block;
+   height: 100vh;
+   width: 12vw;
+   color: white;
+   position: fixed;
+   top: 100px;
    background-color: yellow;
+}
+.headerFalse{
+   display: block;
+   height: 100px;
+   width: 100vw;
+   text-align: center;
+   color: white;
+   font-size: 35px;
+   position: fixed;
+   top: 0;
+   background-color: #00389a;
 }

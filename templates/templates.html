@@ -8,23 +8,25 @@
     <title>System Control</title>
     <link rel="stylesheet" href="/static/templates.css">
 </head>
-{% if modo_escuro == True %}
-    <body class="body-black">
+
+<body class="body{{modo_escuro}}">
+<h1>modo escuro = {{modo_escuro}}</h1>
     <div class="container">
 
             <header class="header-black">
-                <h1 class="cabecalho">System control</h1>
+                <h1 class="cabecalho{{modo_escuro}}">System control</h1>
 
                 <a href="{{url_for('home')}}"><img class="home" src="https://static.thenounproject.com/png/2137554-200.png" alt="Logo"></a>
                 <form action="{{url_for('modo_escuro_func')}}" method="POST">
-                    <span class="modo-escuro">
+                    <span class="modo{{modo_escuro}}">
         <!--                <label for="modo-escuro">Modo Escuro</label>-->
         <!--                <input id="modo-escuro" type="checkbox" name="form-checkbox" value="True">-->
-                        <button name="form-checkbox" value="0">Modo Colorido</button>
+                        {% if modo_escuro == False %}
+                        <button name="form-checkbox" value="0">Modo Escuro</button>
                     </span>
                 </form>
             </header>
-            <nav class="nav-black">
+            <nav class="nav{{modo_escuro}}">
                 <div class="menu">
                      <a href="{{ url_for('pagina_cadastro_func') }}"> CADASTRO</a>
                 </div>
@@ -43,59 +45,13 @@
 
             </nav>
 
-        <main class="main-black">
+        <main class="main{{modo_escuro}}">
             {%- for mens in get_flashed_messages()%}
                 <p>{{mens}}</p>
             {%- endfor %}
-            {% block conteudo_black %}
+            {% block conteudo %}
             {% endblock %}
         </main>
     </div>
     </body>
-{% endif %}
-{% if modo_escuro == False %}
-    <body class="body-colorido">
-    <div class="container">
-
-            <header class="header-colorido">
-                <h1 class="cabecalho">System control</h1>
-
-                <a href="{{url_for('home')}}"><img class="home" src="https://static.thenounproject.com/png/2137554-200.png" alt="Logo"></a>
-                <form action="{{url_for('modo_escuro_func')}}" method="POST">
-                    <span class="modo-escuro">
-        <!--                <label for="modo-escuro">Modo Escuro</label>-->
-        <!--                <input id="modo-escuro" type="checkbox" name="form-checkbox" value="True">-->
-                        <button name="form-checkbox" value="1">Modo Escuro</button>
-                    </span>
-                </form>
-            </header>
-            <nav class="nav-colorido">
-                <div class="menu">
-                     <a href="{{ url_for('pagina_cadastro_func') }}"> CADASTRO</a>
-                </div>
-                <div class="menu">
-                     <a href="{{ url_for('categorias_func') }}"> Lista categoria</a>
-                </div>
-                <div class="menu">
-                     <a href="{{ url_for('funcionarios_func') }}"> Lista funcionario</a>
-                </div>
-                <div class="menu">
-                     <a href="{{ url_for('movimentacao_func') }}"> Lista movimentação</a>
-                </div>
-                <div class="menu">
-                     <a href="{{ url_for('produtos_func') }}"> Lista produto</a>
-                </div>
-
-            </nav>
-
-        <main class="main-colorido">
-            {%- for mens in get_flashed_messages()%}
-                <p>{{mens}}</p>
-            {%- endfor %}
-            {% block conteudo_colorido %}
-            {% endblock %}
-        </main>
-    </div>
-    </body>
-{% endif %}
 </html>
