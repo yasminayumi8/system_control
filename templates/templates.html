@@ -22,7 +22,10 @@
         <!--                <label for="modo-escuro">Modo Escuro</label>-->
         <!--                <input id="modo-escuro" type="checkbox" name="form-checkbox" value="True">-->
                         {% if modo_escuro == False %}
-                        <button name="form-checkbox" value="0">Modo Escuro</button>
+                            <button name="form-checkbox" value="1">Modo Escuro</button>
+                        {% else %}
+                            <button name="form-checkbox" value="0">Modo Colorido</button>
+                        {% endif %}
                     </span>
                 </form>
             </header>
