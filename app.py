@@ -1,7 +1,8 @@
 import sqlalchemy
 from flask import Flask, render_template, request, redirect, url_for, flash
-from models import Categoria, Produto, db_session, Funcionario, Movimentacao
 from sqlalchemy import select
+
+from models import Categoria, Produto, db_session, Funcionario, Movimentacao
 
 
 def dicionario_colunas_movimentacao():
@@ -17,10 +18,9 @@ def dicionario_colunas_movimentacao():
 
         "ID_categoria": "Categoria ID",
         "nome_cat": "Categoria nome",
-        
+
         "ID_funcionario": "Funcionario ID",
         "nome_funcionario": "Funcionario nome"
-
 
     }
     return dicion
@@ -53,6 +53,7 @@ def dicionario_colunas_produto():
     }
     return dicion
 
+
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'secret!'
@@ -65,12 +66,13 @@ def index():
 
 @app.route('/home', methods=['GET'])
 def home():
-    return render_template('templates.html')
+    return render_template('templates.html', modo_escuro=False)
 
 
 @app.route('/cadastro', methods=['GET'])
 def pagina_cadastro_func():
     return render_template('pagina-cadastro.html')
+
 
 @app.route('/categoria', methods=['GET', 'POST'])
 def categorias_func():
@@ -266,45 +268,41 @@ def cadastro_movimentacao_func():
                 if not id_funcionario_:
                     flash('Não existe um funcionario com esse ID cadastrado', 'error')
                 else:
-                    if tipo_movimentacao == '0':
+                    if tipo_movimentacao == '0' and id_produto_.quantidade - int(qtde) < 0:
                         print('primeiro iff')
-                        if id_produto_.quantidade - int(qtde) < 0:
-                            print('segundo iff')
+                        flash('Não existe essa quantidade em estoque', 'error')
+                    else:
+                        data_f = '{}/{}/{}'.format(data_replace[6:], data_replace[4:6], data_replace[:4])
+                        form_add = Movimentacao(quantidade=int(qtde),
+                                                funcionario_id=int(id_funcionario),
+                                                produto_id=int(id_produto),
+                                                data1=data_f,
+                                                status=bool(int(tipo_movimentacao))
+                                                )
+                        form_add.save()
+                        # Salvar a movimentação no banco de dados
+                        form_add.save()  # Aqui você adiciona a movimentação ao banco.
 
-                            flash('Não existe essa quantidade em estoque', 'error')
+                        # Atualizar a quantidade do produto
+                        try:
+                            # Se o tipo de movimentação for entrada (tipo_movimentacao == "1"), somamos
+                            if tipo_movimentacao == "1":  # Entrada
+                                id_produto_.quantidade = (id_produto_.quantidade or 0) + int(qtde)
+                            # Se o tipo de movimentação for saída (tipo_movimentacao == "0"), subtraímos
+                            elif tipo_movimentacao == "0":  # Saída
+                                id_produto_.quantidade = (id_produto_.quantidade or 0) - int(qtde)
 
-                    data_f = '{}/{}/{}'.format(data_replace[6:], data_replace[4:6], data_replace[:4])
-                    form_add = Movimentacao(quantidade=int(qtde),
-                                       funcionario_id=int(id_funcionario),
-                                       produto_id=int(id_produto),
-                                       data1=data_f,
-                                       status=bool(int(tipo_movimentacao))
-                                       )
-                    form_add.save()
-                    # Salvar a movimentação no banco de dados
-                    form_add.save()  # Aqui você adiciona a movimentação ao banco.
+                            # Salvar as alterações no banco
+                            db_session.commit()
 
-                    # Atualizar a quantidade do produto
-                    try:
-                        # Se o tipo de movimentação for entrada (tipo_movimentacao == "1"), somamos
-                        if tipo_movimentacao == "1":  # Entrada
-                            id_produto_.quantidade = (id_produto_.quantidade or 0) + int(qtde)
-                        # Se o tipo de movimentação for saída (tipo_movimentacao == "0"), subtraímos
-                        elif tipo_movimentacao == "0":  # Saída
-                            id_produto_.quantidade = (id_produto_.quantidade or 0) - int(qtde)
+                            # Mensagem de sucesso ao usuário
+                            flash('Movimentação cadastrada e quantidade do produto atualizada com sucesso!', 'success')
+                        except Exception as e:
+                            # Desfazer alterações se ocorrer um erro
+                            db_session.rollback()
+                            flash(f'Erro ao atualizar a quantidade do produto: {e}', 'error')
 
-
-                        # Salvar as alterações no banco
-                        db_session.commit()
-
-                        # Mensagem de sucesso ao usuário
-                        flash('Movimentação cadastrada e quantidade do produto atualizada com sucesso!', 'success')
-                    except Exception as e:
-                        # Desfazer alterações se ocorrer um erro
-                        db_session.rollback()
-                        flash(f'Erro ao atualizar a quantidade do produto: {e}', 'error')
-
-                    db_session.close()
+                            db_session.close()
 
     return render_template('cadastro_movimentacao.html', funcionarios=resultado_funcionario, produtos=resultado_produto)
 
@@ -315,12 +313,13 @@ dicionario_classes = {
     "<class 'models.Movimentacao'>": Movimentacao,
     "<class 'models.Categoria'>": Categoria,
 }
+
+
 # adicionar classes
 
 
 @app.route('/pesquisar/<class_>', methods=['GET', 'POST'])
 def pesquisar_func(class_):
-
     if request.method == 'POST':
         campo = request.form['campo']
         print(f'campo : {campo}')
@@ -330,8 +329,8 @@ def pesquisar_func(class_):
         print(f'termo : {termo_pesquisa}')
         if not campo or not termo_pesquisa:
             flash('Por favor, selecione um campo e insira um termo de pesquisa.')
-#         tabelas que recebem FK precisam de um if específico (produto, movimentacao
-#         diferente de tabelas como categoria e funcionario
+        #         tabelas que recebem FK precisam de um if específico (produto, movimentacao
+        #         diferente de tabelas como categoria e funcionario
         if classe in [Categoria, Funcionario]:
             print('CATEGORIA / FUNCIONARIO')
             if 'ID' not in campo:
@@ -387,41 +386,107 @@ def pesquisar_func(class_):
                                    class_=class_,
                                    pesquisa=True)
         elif classe == Movimentacao:
-                if campo in ['ID_produto', 'nome_produto', "fornecedor"]:
-                    classe = Produto
-                elif campo in ['ID_categoria', 'nome_cat']:
-                    classe = Categoria
-                elif campo in ['ID_funcionario', 'nome_funcionario']:
-                    classe = Funcionario
-                print(classe)
-                if 'ID' not in campo:
-                    print('geral')
-                    consulta = select(Movimentacao, Produto, Funcionario, Categoria).join(
-                        Produto, Movimentacao.produto_id == Produto.ID_produto).join(
-                        Funcionario, Movimentacao.funcionario_id == Funcionario.ID_funcionario
-                    ).join(Categoria, Produto.categoria_id == Categoria.ID_categoria).where(
-                        getattr(classe, campo).like(f"%{termo_pesquisa}%")
-                    )
-                else:
-                    print('exata')
-                    consulta = select(Movimentacao, Produto, Funcionario, Categoria).join(
-                        Produto, Movimentacao.produto_id == Produto.ID_produto).join(
-                        Funcionario, Movimentacao.funcionario_id == Funcionario.ID_funcionario
-                    ).join(Categoria, Produto.categoria_id == Categoria.ID_categoria).where(
-                        getattr(classe, campo) == termo_pesquisa)
+            if campo in ['ID_produto', 'nome_produto', "fornecedor"]:
+                classe = Produto
+            elif campo in ['ID_categoria', 'nome_cat']:
+                classe = Categoria
+            elif campo in ['ID_funcionario', 'nome_funcionario']:
+                classe = Funcionario
+            print(classe)
+            if 'ID' not in campo:
+                if campo == 'status' and termo_pesquisa.lower() in lista_saida:
+                    termo_pesquisa = '0'
+                elif campo == 'status' and termo_pesquisa.lower() in lista_entrada:
+                    termo_pesquisa = '1'
+                print('geral')
+                consulta = select(Movimentacao, Produto, Funcionario, Categoria).join(
+                    Produto, Movimentacao.produto_id == Produto.ID_produto).join(
+                    Funcionario, Movimentacao.funcionario_id == Funcionario.ID_funcionario
+                ).join(Categoria, Produto.categoria_id == Categoria.ID_categoria).where(
+                    getattr(classe, campo).like(f"%{termo_pesquisa}%")
+                )
+            else:
+                print('exata')
+                consulta = select(Movimentacao, Produto, Funcionario, Categoria).join(
+                    Produto, Movimentacao.produto_id == Produto.ID_produto).join(
+                    Funcionario, Movimentacao.funcionario_id == Funcionario.ID_funcionario
+                ).join(Categoria, Produto.categoria_id == Categoria.ID_categoria).where(
+                    getattr(classe, campo) == termo_pesquisa)
 
-                dicion=dicionario_colunas_movimentacao()
-                resultado = db_session.execute(consulta).fetchall()
-                return render_template('lista_movimentacao.html',
-                                       var_movimentacao=resultado,
-                                       numero_resultados=len(resultado),
-                                       dicio=dicion,
-                                       class_=class_,
-                                       pesquisa=True)
+            dicion = dicionario_colunas_movimentacao()
+            resultado = db_session.execute(consulta).fetchall()
+            return render_template('lista_movimentacao.html',
+                                   var_movimentacao=resultado,
+                                   numero_resultados=len(resultado),
+                                   dicio=dicion,
+                                   class_=class_,
+                                   pesquisa=True)
+
+
+lista_saida = ['saida', 's', 'sa', 'sai', 'said']
+lista_entrada = ['entrada', 'e', 'en', 'entr', 'entra', 'entrad']
+
+
+@app.route('/editar-categoria<int:id_categoria>', methods=['GET', 'POST'])
+def editar_categoria(id_categoria):
+    print(f'ID categoria:{id_categoria}')
+    edit_categoria = select(Categoria).where(Categoria.ID_categoria == id_categoria)
+    edit_categoria = db_session.execute(edit_categoria).scalar()
+    if request.method == 'POST':
+        nome = request.form['form_nome_cat']
+
+        if not nome:
+            flash('Todos os campos devem estar preenchidos!', 'error')
+        else:
+            edit_categoria.nome_cat = nome
+            edit_categoria.save()
+            flash('Categoria editada com sucesso!', 'success')
+            return redirect(url_for('categorias_func'))
+    print(f'edit categoria id:{edit_categoria.ID_categoria}')
+    return render_template('editar_categoria.html', edit_categoria=edit_categoria)
+
+
+@app.route('/editar-funcionario<int:id_funcionario>', methods=['GET', 'POST'])
+def editar_funcionario(id_funcionario):
+    print(f'ID categoria:{id_funcionario}')
+    edit_funcionario = select(Funcionario).where(Funcionario.ID_funcionario == id_funcionario)
+    edit_funcionario = db_session.execute(edit_funcionario).scalar()
+
+
+
+
+    if request.method == 'POST':
+        nome = request.form['form_nome_funcionario']
+        CPF = request.form['form_CPF']
+        salario = request.form['form_salario']
+        if not nome or not CPF or not salario:
+            flash('Todos os campos devem estar preenchidos!', 'error')
+        else:
+            cpf_ = str(CPF)
+            if len(cpf_) != 11:
+                flash('Os campos estão preenchidos incorretamente!', 'error')
+            else:
+                cpf_f = '{0}.{1}.{2}-{3}'.format(cpf_[:3], cpf_[3:6], cpf_[6:9], cpf_[9:])
+                if not nome:
+                    flash('Todos os campos devem estar preenchidos!', 'error')
+                else:
+                    edit_funcionario.nome_funcionario = nome
+                    edit_funcionario.CPF = cpf_f
+                    edit_funcionario.salario = salario
+
+                    edit_funcionario.save()
+                    flash('Funcionário editado com sucesso!', 'success')
+                    return redirect(url_for('funcionarios_func'))
+    # print(f'edit categoria id:{edit_funcionario.ID_funcionario}')
+    return render_template('editar_funcionario.html', edit_funcionario=edit_funcionario, cpf=int(edit_funcionario.CPF.replace('.', '').replace('-', '')))
+
+
+@app.route('/home_', methods=['GET', 'POST'])
+def modo_escuro_func():
+    checkbox = request.form['form-checkbox']
+    print(checkbox)
+    return render_template('templates.html', modo_escuro=bool(int(checkbox)))
 
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-

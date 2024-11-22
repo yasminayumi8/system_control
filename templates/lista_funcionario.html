@@ -11,6 +11,7 @@
             <p>{{funcionario.nome_funcionario}}</p>
             <p>{{funcionario.CPF}}</p>
             <p>R$ {{funcionario.salario}}</p>
+            <p><a href="{{url_for('editar_funcionario', id_funcionario=funcionario.ID_funcionario)}}">EDITAR</a></p>
         </div>
     {% endfor%}
 {% endblock %}

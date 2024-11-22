@@ -5,13 +5,15 @@
 }
 
 
-body, html {
+html {
    height: 100vh;
    font-family: "Franklin Gothic Heavy", sans-serif;
    font-size: 20px;
-   background-color: #000000;
 }
+.body-black{
+   background-color: #000000;
 
+}
 
 li, a{
    color:black;
@@ -52,7 +54,7 @@ header {
 }
 
 
-nav {
+.nav-black {
    background-color: #b2b2b2;
    display: inline-block;
    height: 100vh;
@@ -62,8 +64,8 @@ nav {
    top: 100px;
 }
 
-main{
-    background-color: #000000;
+.main-black{
+    background-color: #020101;
    display: inline-block;
    /*largura da tela*/
    width: 75%;
@@ -81,7 +83,7 @@ main{
    /*inline-block da pra mudar o tamanho*/
 
 
-   height: 225px;
+   height: 230px;
    width: 200px;
    border-radius: 10px;
    margin: 10px;
@@ -90,6 +92,9 @@ main{
    font-family: Bahnschrift, sans-serif;
    /*para organizar deixar alinhado*/
    float: left;
+}
+.card p{
+   padding: 2px;
 }
 .card1{
    background-color: #4d5b5b;
@@ -158,19 +163,19 @@ body::-webkit-scrollbar {
 /*   !*para organizar deixar alinhado*!*/
 /*   float: left;*/
 /*}*/
-#home{
+.home{
     width: 60px;
     float: right;
     margin: 25px;
     transition: transform .2s;
 }
-#home:hover{
+.home:hover{
     /*width: 75px;*/
     /*margin: 15px;*/
     opacity: 50%;
     transform: scale(1.5);
 }
-#cabecalho{
+.cabecalho{
    font-weight: bold;
    display: inline-block;
 }
@@ -182,4 +187,19 @@ form{
    align-items: center;
    justify-content: center;
    /*margin-top: 25vh;*/
+}
+/*.modo-escuro{*/
+/*   font-family: Arial, sans-serif;*/
+/*   font-size: 16px;*/
+/*   float: right;*/
+/*   !*margin-left: 10vw;*!*/
+/*}*/
+.body-colorido{
+   background-color: cyan;
+}
+.main-colorido{
+   background-color: cyan;
+}
+.nav-colorido{
+   background-color: yellow;
 }

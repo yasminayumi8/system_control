@@ -9,6 +9,7 @@
 
     {% for movimentacao, produto, funcionario, cat in var_movimentacao %}
         <div class="card">
+            <p>ID Movimentação: {{movimentacao.ID_movimentacao}}</p>
             <p>{{produto.nome_produto}} #{{produto.ID_produto}}</p>
 <!--            <p>Categoria: cat.nome_</p>-->
             <p>Funcionário: {{funcionario.nome_funcionario}}</p>
