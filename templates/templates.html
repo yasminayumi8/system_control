@@ -13,37 +13,35 @@
 <h1>modo escuro = {{modo_escuro}}</h1>
     <div class="container">
 
-            <header class="header-black">
+            <header class="header{{modo_escuro}}">
                 <h1 class="cabecalho{{modo_escuro}}">System control</h1>
 
-                <a href="{{url_for('home')}}"><img class="home" src="https://static.thenounproject.com/png/2137554-200.png" alt="Logo"></a>
+                <a href="{{url_for('home', modo_escuro=modo_escuro)}}"><img class="home" src="https://static.thenounproject.com/png/2137554-200.png" alt="Logo"></a>
                 <form action="{{url_for('modo_escuro_func')}}" method="POST">
                     <span class="modo{{modo_escuro}}">
         <!--                <label for="modo-escuro">Modo Escuro</label>-->
         <!--                <input id="modo-escuro" type="checkbox" name="form-checkbox" value="True">-->
-                        {% if modo_escuro == False %}
-                            <button name="form-checkbox" value="1">Modo Escuro</button>
-                        {% else %}
-                            <button name="form-checkbox" value="0">Modo Colorido</button>
-                        {% endif %}
+
+                        <button name="form-checkbox" value="{{modo_escuro}}">Modo Escuro</button>
+
                     </span>
                 </form>
             </header>
             <nav class="nav{{modo_escuro}}">
                 <div class="menu">
-                     <a href="{{ url_for('pagina_cadastro_func') }}"> CADASTRO</a>
+                     <a href="{{ url_for('pagina_cadastro_func', modo_escuro=modo_escuro) }}"> CADASTRO</a>
                 </div>
                 <div class="menu">
-                     <a href="{{ url_for('categorias_func') }}"> Lista categoria</a>
+                     <a href="{{ url_for('categorias_func', modo_escuro=modo_escuro) }}"> Lista categoria</a>
                 </div>
                 <div class="menu">
-                     <a href="{{ url_for('funcionarios_func') }}"> Lista funcionario</a>
+                     <a href="{{ url_for('funcionarios_func', modo_escuro=modo_escuro) }}"> Lista funcionario</a>
                 </div>
                 <div class="menu">
-                     <a href="{{ url_for('movimentacao_func') }}"> Lista movimentação</a>
+                     <a href="{{ url_for('movimentacao_func', modo_escuro=modo_escuro) }}"> Lista movimentação</a>
                 </div>
                 <div class="menu">
-                     <a href="{{ url_for('produtos_func') }}"> Lista produto</a>
+                     <a href="{{ url_for('produtos_func', modo_escuro=modo_escuro) }}"> Lista produto</a>
                 </div>
 
             </nav>

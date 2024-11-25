@@ -1,10 +1,10 @@
 {% extends 'templates-barra-de-pesquisa.html' %}
 {% block head %}
     {% if pesquisa == True: %}
-    <a href="{{url_for('funcionarios_func')}}"><button>Remover filtro</button></a>
+    <a href="{{url_for('funcionarios_func', modo_escuro=modo_escuro)}}"><button>Remover filtro</button></a>
 {% endif %}
 {% endblock %}
-{% block conteudo_colorido %}
+{% block conteudo %}
 
     {% for funcionario in var_funcionario %}
         <div class="card">

@@ -1,7 +1,7 @@
 {% extends 'templates-barra-de-pesquisa.html' %}
 {% block head %}
     {% if pesquisa == True: %}
-        <a href="{{url_for('categorias_func')}}"><button>Remover filtro</button></a>
+        <a href="{{url_for('categorias_func', modo_escuro=modo_escuro)}}"><button>Remover filtro</button></a>
     {% endif %}
 {% endblock %}
 {% block conteudo %}

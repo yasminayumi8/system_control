@@ -61,21 +61,31 @@ app.config['SECRET_KEY'] = 'secret!'
 
 @app.route('/')
 def index():
-    return redirect('home')
+    return redirect(url_for('home'))
 
 
 @app.route('/home', methods=['GET'])
-def home():
-    return render_template('templates.html', modo_escuro=False)
+@app.route('/home_<modo_escuro>', methods=['GET'])
+def home(modo_escuro=None):
+    if modo_escuro is None:
+        return render_template('templates.html', modo_escuro=False)
+    else:
+        return render_template('templates.html', modo_escuro=modo_escuro)
+    # else:
+    #     return render_template('templates.html', modo_escuro=modo_escuro)
 
 
 @app.route('/cadastro', methods=['GET'])
 def pagina_cadastro_func():
     return render_template('pagina-cadastro.html')
 
-
 @app.route('/categoria', methods=['GET', 'POST'])
-def categorias_func():
+@app.route('/categoria_<modo_escuro>', methods=['GET', 'POST'])
+def categorias_func(modo_escuro=None):
+    # if modo_escuro is None or modo_escuro == 'True':
+    #     modo_escuro = False
+    # else:
+    #     modo_escuro = True
     lista_categoria = select(Categoria).select_from(Categoria)
     lista_categoria = db_session.execute(lista_categoria).scalars()
     resultado = []
@@ -88,11 +98,13 @@ def categorias_func():
                            class_=Categoria,
                            pesquisa=False,
                            numero_resultados=len(resultado),
-                           dicio=dicion)
+                           dicio=dicion,
+                           modo_escuro=modo_escuro)
 
 
 @app.route('/funcionario', methods=['GET', 'POST'])
-def funcionarios_func():
+@app.route('/funcionario_<modo_escuro>', methods=['GET', 'POST'])
+def funcionarios_func(modo_escuro=None):
     lista_funcionarios = select(Funcionario).select_from(Funcionario)
     lista_funcionarios = db_session.execute(lista_funcionarios).scalars()
     resultado = []
@@ -106,11 +118,12 @@ def funcionarios_func():
                            class_=Funcionario,
                            pesquisa=False,
                            numero_resultados=len(resultado),
-                           dicio=dicion)
+                           dicio=dicion,
+                           modo_escuro=modo_escuro)
 
 
-@app.route('/produto', methods=['GET', 'POST'])
-def produtos_func():
+@app.route('/produto_<modo_escuro>', methods=['GET', 'POST'])
+def produtos_func(modo_escuro):
     lista_produtos = select(Produto, Categoria).join(Categoria,
                                                      Produto.categoria_id == Categoria.ID_categoria)
     lista_produtos = db_session.execute(lista_produtos).fetchall()
@@ -122,7 +135,8 @@ def produtos_func():
                            class_=Produto,
                            pesquisa=False,
                            numero_resultados=len(lista_produtos),
-                           dicio=dicion)
+                           dicio=dicion,
+                           modo_escuro=modo_escuro)
 
 
 @app.route('/produto_<id_produto>')
@@ -135,8 +149,8 @@ def produto_detalhes_func(id_produto):
     return render_template('produto-detalhes.html', var_produto=lista_produtos)
 
 
-@app.route('/movimentacao', methods=['GET', 'POST'])
-def movimentacao_func():
+@app.route('/movimentacao_<modo_escuro>', methods=['GET', 'POST'])
+def movimentacao_func(modo_escuro):
     lista_movimentacao = select(Movimentacao, Produto, Funcionario, Categoria).join(
         Produto, Produto.ID_produto == Movimentacao.produto_id).join(
         Funcionario, Movimentacao.funcionario_id == Funcionario.ID_funcionario).join(
@@ -150,7 +164,8 @@ def movimentacao_func():
                            class_=Movimentacao,
                            pesquisa=False,
                            numero_resultados=len(lista_movimentacao),
-                           dicio=dicion)
+                           dicio=dicion,
+                           modo_escuro=modo_escuro)
 
 
 @app.route('/cadastro/categoria', methods=['GET', 'POST'])
@@ -318,8 +333,8 @@ dicionario_classes = {
 # adicionar classes
 
 
-@app.route('/pesquisar/<class_>', methods=['GET', 'POST'])
-def pesquisar_func(class_):
+@app.route('/pesquisar/<class_>_<modo_escuro>', methods=['GET', 'POST'])
+def pesquisar_func(class_, modo_escuro):
     if request.method == 'POST':
         campo = request.form['campo']
         print(f'campo : {campo}')
@@ -353,7 +368,9 @@ def pesquisar_func(class_):
                                        numero_resultados=len(resultado),
                                        dicio=dicion,
                                        class_=class_,
-                                       pesquisa=True)
+                                       pesquisa=True,
+                                       modo_escuro=modo_escuro
+                                       )
             else:
                 for result in lista_resultados:
                     resultado.append(result.serialize_funcionario())
@@ -363,7 +380,8 @@ def pesquisar_func(class_):
                                        numero_resultados=len(resultado),
                                        dicio=dicion,
                                        class_=class_,
-                                       pesquisa=True)
+                                       pesquisa=True,
+                                       modo_escuro=modo_escuro)
         elif classe == Produto:
             if campo == 'nome_cat':
                 classe = Categoria
@@ -384,7 +402,8 @@ def pesquisar_func(class_):
                                    numero_resultados=len(resultado),
                                    dicio=dicion,
                                    class_=class_,
-                                   pesquisa=True)
+                                   pesquisa=True,
+                                   modo_escuro=modo_escuro)
         elif classe == Movimentacao:
             if campo in ['ID_produto', 'nome_produto', "fornecedor"]:
                 classe = Produto
@@ -420,7 +439,8 @@ def pesquisar_func(class_):
                                    numero_resultados=len(resultado),
                                    dicio=dicion,
                                    class_=class_,
-                                   pesquisa=True)
+                                   pesquisa=True,
+                                   modo_escuro=modo_escuro)
 
 
 lista_saida = ['saida', 's', 'sa', 'sai', 'said']
@@ -485,7 +505,13 @@ def editar_funcionario(id_funcionario):
 def modo_escuro_func():
     checkbox = request.form['form-checkbox']
     print(checkbox)
-    return render_template('templates.html', modo_escuro=bool(int(checkbox)))
+    if checkbox == 'False':
+        valor = False
+    else:
+        valor = True
+    valor_trocado = not valor
+    print(f'trocado: {valor_trocado}')
+    return render_template('templates.html', modo_escuro=valor_trocado)
 
 
 if __name__ == '__main__':

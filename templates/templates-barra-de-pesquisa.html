@@ -8,11 +8,11 @@
     <title>System Control</title>
     <link rel="stylesheet" href="/static/templates.css">
 </head>
-<body>
+<body class="body{{modo_escuro}}">
 <div class="container">
-    <header>
+    <header class="header{{modo_escuro}}">
 <!--        <h1><strong>System control</strong></h1>-->
-        <form action="{{url_for('pesquisar_func', class_=class_)}}" method="post">
+        <form action="{{url_for('pesquisar_func', class_=class_, modo_escuro=modo_escuro)}}" method="post">
             <span class="display-block">
 <!--                <h1>}</h1>-->
                 <input type="text" name="form-pesquisa" placeholder="Pesquisar">
@@ -29,28 +29,29 @@
         </form>
         {% block head %}
         {% endblock %}
-        <a href="{{url_for('home')}}"><img id="home" src="https://static.thenounproject.com/png/2137554-200.png" alt="Logo"></a>
+        <a href="{{url_for('home', modo_escuro=modo_escuro)}}"><img class="home" src="https://static.thenounproject.com/png/2137554-200.png" alt="Logo"></a>
 
     </header>
-    <nav>
+    <nav class="nav{{modo_escuro}}">
+        <h1>modo_escuro = {{modo_escuro}}</h1>
         <div class="menu">
-             <a href="{{ url_for('pagina_cadastro_func') }}"> CADASTRO</a>
+             <a href="{{ url_for('pagina_cadastro_func', modo_escuro=modo_escuro) }}"> CADASTRO</a>
         </div>
         <div class="menu">
-             <a href="{{ url_for('categorias_func') }}"> Lista categoria</a>
+             <a href="{{ url_for('categorias_func', modo_escuro=modo_escuro) }}"> Lista categoria</a>
         </div>
         <div class="menu">
-             <a href="{{ url_for('funcionarios_func') }}"> Lista funcionario</a>
+             <a href="{{ url_for('funcionarios_func', modo_escuro=modo_escuro) }}"> Lista funcionario</a>
         </div>
         <div class="menu">
-             <a href="{{ url_for('movimentacao_func') }}"> Lista movimentação</a>
+             <a href="{{ url_for('movimentacao_func', modo_escuro=modo_escuro) }}"> Lista movimentação</a>
         </div>
         <div class="menu">
-             <a href="{{ url_for('produtos_func') }}"> Lista produto</a>
+             <a href="{{ url_for('produtos_func', modo_escuro=modo_escuro) }}"> Lista produto</a>
         </div>
 
     </nav>
-    <main>
+    <main class="main{{modo_escuro}}">
         {%- for mens in get_flashed_messages()%}
             <p>{{mens}}</p>
         {%- endfor %}
