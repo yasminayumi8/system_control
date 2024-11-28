@@ -5,13 +5,34 @@
 {% endif %}
 {% endblock %}
 {% block conteudo %}
-
+    <a class="botao" href="{{url_for('gerar_tabela_funcionario', modo_escuro=modo_escuro)}}">Gerar tabela</a>
     {% for funcionario in var_funcionario %}
-        <div class="card">
-            <p>{{funcionario.nome_funcionario}}</p>
-            <p>{{funcionario.CPF}}</p>
-            <p>R$ {{funcionario.salario}}</p>
-            <p><a href="{{url_for('editar_funcionario', id_funcionario=funcionario.ID_funcionario, modo_escuro=modo_escuro)}}">EDITAR</a></p>
-        </div>
+        {% if funcionario.status_funcionario == True %}
+            <div class="card">
+                <p>{{funcionario.nome_funcionario}}</p>
+                <p>{{funcionario.CPF}}</p>
+                <p>R$ {{funcionario.salario}}</p>
+                {% if funcionario.status_funcionario == True: %}
+                    <p>Ativo</p>
+                {% endif %}
+                {% if funcionario.status_funcionario == False: %}
+                    <p>Desativado</p>
+                {% endif %}
+                <p><a href="{{url_for('editar_funcionario', id_funcionario=funcionario.ID_funcionario, modo_escuro=modo_escuro)}}">EDITAR</a></p>
+            </div>
+        {% else %}
+            <div class="card-desativado">
+                <p>{{funcionario.nome_funcionario}}</p>
+                <p>{{funcionario.CPF}}</p>
+                <p>R$ {{funcionario.salario}}</p>
+                {% if funcionario.status_funcionario == True: %}
+                    <p>Ativo</p>
+                {% endif %}
+                {% if funcionario.status_funcionario == False: %}
+                    <p>Desativado</p>
+                {% endif %}
+                <p><a href="{{url_for('editar_funcionario', id_funcionario=funcionario.ID_funcionario, modo_escuro=modo_escuro)}}">EDITAR</a></p>
+            </div>
+        {% endif %}
     {% endfor%}
 {% endblock %}

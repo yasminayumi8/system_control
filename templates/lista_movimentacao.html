@@ -2,11 +2,11 @@
 
 {% block head %}
     {% if pesquisa == True: %}
-        <a href="{{url_for('movimentacao_func')}}"><button>Remover filtro</button></a>
+        <a href="{{url_for('movimentacao_func', modo_escuro=modo_escuro)}}"><button>Remover filtro</button></a>
     {% endif %}
 {% endblock %}
 {% block conteudo %}
-
+    <a class="botao" href="{{url_for('gerar_tabela_movimentacao', modo_escuro=modo_escuro)}}">Gerar tabela</a>
     {% for movimentacao, produto, funcionario, cat in var_movimentacao %}
         <div class="card">
             <p>ID Movimentação: {{movimentacao.ID_movimentacao}}</p>

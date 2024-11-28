@@ -68,6 +68,7 @@ def index():
 @app.route('/home_<modo_escuro>', methods=['GET'])
 def home(modo_escuro=None):
     print(f'modo escur {modo_escuro}')
+    funcionario_sql = select(Funcionario).where()
     if modo_escuro is None:
         return render_template('templates_modo_escuro.html', modo_escuro=False)
     else:
@@ -103,7 +104,8 @@ def categorias_func(modo_escuro):
                            pesquisa=False,
                            numero_resultados=len(resultado),
                            dicio=dicion,
-                           modo_escuro=modo_escuro)
+                           modo_escuro=modo_escuro,
+                           tabela=False)
 
 
 @app.route('/funcionario', methods=['GET', 'POST'])
@@ -123,7 +125,8 @@ def funcionarios_func(modo_escuro=None):
                            pesquisa=False,
                            numero_resultados=len(resultado),
                            dicio=dicion,
-                           modo_escuro=modo_escuro)
+                           modo_escuro=modo_escuro,
+                           tabela=False)
 
 
 @app.route('/produto_<modo_escuro>', methods=['GET', 'POST'])
@@ -140,7 +143,8 @@ def produtos_func(modo_escuro):
                            pesquisa=False,
                            numero_resultados=len(lista_produtos),
                            dicio=dicion,
-                           modo_escuro=modo_escuro)
+                           modo_escuro=modo_escuro,
+                           tabela=False)
 
 
 @app.route('/produto_<id_produto>_<modo_escuro>', methods=['GET', 'POST'])
@@ -169,7 +173,8 @@ def movimentacao_func(modo_escuro):
                            pesquisa=False,
                            numero_resultados=len(lista_movimentacao),
                            dicio=dicion,
-                           modo_escuro=modo_escuro)
+                           modo_escuro=modo_escuro,
+                           tabela=False)
 
 
 @app.route('/cadastro/categoria_<modo_escuro>', methods=['GET', 'POST'])
@@ -339,8 +344,8 @@ dicionario_classes = {
 # adicionar classes
 
 
-@app.route('/pesquisar/<class_>_<modo_escuro>', methods=['GET', 'POST'])
-def pesquisar_func(class_, modo_escuro):
+@app.route('/pesquisar/<class_>_<modo_escuro>_tabela-<tabela>', methods=['GET', 'POST'])
+def pesquisar_func(class_, modo_escuro, tabela):
     if request.method == 'POST':
         campo = request.form['campo']
         print(f'campo : {campo}')
@@ -369,25 +374,44 @@ def pesquisar_func(class_, modo_escuro):
                 for result in lista_resultados:
                     resultado.append(result.serialize_categoria())
                 dicion = dicionario_colunas_categoria()
-                return render_template('lista_categoria.html',
-                                       var_categoria=resultado,
-                                       numero_resultados=len(resultado),
-                                       dicio=dicion,
-                                       class_=class_,
-                                       pesquisa=True,
-                                       modo_escuro=modo_escuro
-                                       )
+                if tabela == 'False':
+                    return render_template('lista_categoria.html',
+                                           var_categoria=resultado,
+                                           numero_resultados=len(resultado),
+                                           dicio=dicion,
+                                           class_=class_,
+                                           pesquisa=True,
+                                           modo_escuro=modo_escuro
+                                           )
+                else:
+                    return render_template('tabela-categoria.html',
+                                           var_categoria=resultado,
+                                           numero_resultados=len(resultado),
+                                           dicio=dicion,
+                                           class_=class_,
+                                           pesquisa=True,
+                                           modo_escuro=modo_escuro
+                                           )
             else:
                 for result in lista_resultados:
                     resultado.append(result.serialize_funcionario())
                 dicion = dicionario_colunas_funcionario()
-                return render_template('lista_funcionario.html',
-                                       var_funcionario=resultado,
-                                       numero_resultados=len(resultado),
-                                       dicio=dicion,
-                                       class_=class_,
-                                       pesquisa=True,
-                                       modo_escuro=modo_escuro)
+                if tabela == 'False':
+                    return render_template('lista_funcionario.html',
+                                           var_funcionario=resultado,
+                                           numero_resultados=len(resultado),
+                                           dicio=dicion,
+                                           class_=class_,
+                                           pesquisa=True,
+                                           modo_escuro=modo_escuro)
+                else:
+                    return render_template('tabela-funcionario.html',
+                                           var_funcionario=resultado,
+                                           numero_resultados=len(resultado),
+                                           dicio=dicion,
+                                           class_=class_,
+                                           pesquisa=True,
+                                           modo_escuro=modo_escuro)
         elif classe == Produto:
             if campo == 'nome_cat':
                 classe = Categoria
@@ -403,13 +427,22 @@ def pesquisar_func(class_, modo_escuro):
 
             resultado = db_session.execute(consulta).fetchall()
             dicion = dicionario_colunas_produto()
-            return render_template('lista_produto.html',
-                                   var_produto=resultado,
-                                   numero_resultados=len(resultado),
-                                   dicio=dicion,
-                                   class_=class_,
-                                   pesquisa=True,
-                                   modo_escuro=modo_escuro)
+            if tabela == 'False':
+                return render_template('lista_produto.html',
+                                       var_produto=resultado,
+                                       numero_resultados=len(resultado),
+                                       dicio=dicion,
+                                       class_=class_,
+                                       pesquisa=True,
+                                       modo_escuro=modo_escuro)
+            else:
+                return render_template('tabela-produto.html',
+                                       var_produto=resultado,
+                                       numero_resultados=len(resultado),
+                                       dicio=dicion,
+                                       class_=class_,
+                                       pesquisa=True,
+                                       modo_escuro=modo_escuro)
         elif classe == Movimentacao:
             if campo in ['ID_produto', 'nome_produto', "fornecedor"]:
                 classe = Produto
@@ -440,13 +473,25 @@ def pesquisar_func(class_, modo_escuro):
 
             dicion = dicionario_colunas_movimentacao()
             resultado = db_session.execute(consulta).fetchall()
-            return render_template('lista_movimentacao.html',
-                                   var_movimentacao=resultado,
-                                   numero_resultados=len(resultado),
-                                   dicio=dicion,
-                                   class_=class_,
-                                   pesquisa=True,
-                                   modo_escuro=modo_escuro)
+            print(tabela)
+            if tabela == 'False':
+                print('listaaaa')
+                return render_template('lista_movimentacao.html',
+                                       var_movimentacao=resultado,
+                                       numero_resultados=len(resultado),
+                                       dicio=dicion,
+                                       class_=class_,
+                                       pesquisa=True,
+                                       modo_escuro=modo_escuro)
+            else:
+                print('tabelaaaaa')
+                return render_template('tabela-movimentacao.html',
+                                       var_movimentacao=resultado,
+                                       numero_resultados=len(resultado),
+                                       dicio=dicion,
+                                       class_=class_,
+                                       pesquisa=True,
+                                       modo_escuro=modo_escuro)
 
 
 lista_saida = ['saida', 's', 'sa', 'sai', 'said']
@@ -538,6 +583,46 @@ def editar_produtos(id_produto, modo_escuro):
     return render_template('editar_produto.html', edit_produto=edit_produto, modo_escuro=modo_escuro, categorias=categorias)
 
 
+@app.route('/movimentacao/tabela_<modo_escuro>', methods=['GET', 'POST'])
+def gerar_tabela_movimentacao(modo_escuro):
+    lista_movimentacao = select(Movimentacao, Produto, Funcionario, Categoria).join(
+        Produto, Produto.ID_produto == Movimentacao.produto_id).join(
+        Funcionario, Movimentacao.funcionario_id == Funcionario.ID_funcionario).join(
+        Categoria, Produto.categoria_id == Categoria.ID_categoria)
+    lista_movimentacao = db_session.execute(lista_movimentacao).fetchall()
+
+    dicion = dicionario_colunas_movimentacao()
+    # numero_resultados = len(resultado)
+    return render_template('tabela-movimentacao.html',
+                           var_movimentacao=lista_movimentacao,
+                           class_=Movimentacao,
+                           pesquisa=False,
+                           numero_resultados=len(lista_movimentacao),
+                           dicio=dicion,
+                           modo_escuro=modo_escuro,
+                           tabela=True)
+
+
+@app.route('/funcionario/tabela_<modo_escuro>', methods=['GET', 'POST'])
+def gerar_tabela_funcionario(modo_escuro):
+    lista_funcionarios = select(Funcionario).select_from(Funcionario)
+    lista_funcionarios = db_session.execute(lista_funcionarios).scalars()
+    resultado = []
+    print(lista_funcionarios)
+    for func in lista_funcionarios:
+        resultado.append(func.serialize_funcionario())
+    dicion = dicionario_colunas_funcionario()
+    # numero_resultados = len(resultado)
+    return render_template('tabela-funcionario.html',
+                           var_funcionario=resultado,
+                           class_=Funcionario,
+                           pesquisa=False,
+                           numero_resultados=len(resultado),
+                           dicio=dicion,
+                           modo_escuro=modo_escuro,
+                           tabela=True)
+
+
 @app.route('/home_', methods=['GET', 'POST'])
 def modo_escuro_func():
     checkbox = request.form['form-checkbox']
@@ -549,6 +634,43 @@ def modo_escuro_func():
     valor_trocado = not valor
     print(f'trocado: {valor_trocado}')
     return render_template('templates_modo_escuro.html', modo_escuro=valor_trocado)
+
+
+@app.route('/categoria/tabela_<modo_escuro>')
+def gerar_tabela_categoria(modo_escuro):
+    lista_categoria = select(Categoria).select_from(Categoria)
+    lista_categoria = db_session.execute(lista_categoria).scalars()
+    resultado = []
+    print(lista_categoria)
+    for cat in lista_categoria:
+        resultado.append(cat.serialize_categoria())
+    dicion = dicionario_colunas_categoria()
+    return render_template('tabela-categoria.html',
+                           var_categoria=resultado,
+                           class_=Categoria,
+                           pesquisa=False,
+                           numero_resultados=len(resultado),
+                           dicio=dicion,
+                           modo_escuro=modo_escuro,
+                           tabela=True)
+
+
+@app.route('/produto/tabela_<modo_escuro>')
+def gerar_tabela_produto(modo_escuro):
+    lista_produtos = select(Produto, Categoria).join(Categoria,
+                                                     Produto.categoria_id == Categoria.ID_categoria)
+    lista_produtos = db_session.execute(lista_produtos).fetchall()
+    dicion = dicionario_colunas_produto()
+    # dicion = dicionario_colunas_cliente()
+    # numero_resultados = len(resultado)
+    return render_template('tabela-produto.html',
+                           var_produto=lista_produtos,
+                           class_=Produto,
+                           pesquisa=False,
+                           numero_resultados=len(lista_produtos),
+                           dicio=dicion,
+                           modo_escuro=modo_escuro,
+                           tabela=True)
 
 
 if __name__ == '__main__':

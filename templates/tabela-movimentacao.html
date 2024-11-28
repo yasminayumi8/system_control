@@ -1,0 +1,39 @@
+{% extends 'templates-barra-de-pesquisa.html' %}
+
+{% block head %}
+    {% if pesquisa == True: %}
+        <a href="{{url_for('gerar_tabela_movimentacao', modo_escuro=modo_escuro)}}"><button>Remover filtro</button></a>
+    {% endif %}
+{% endblock %}
+{% block conteudo %}
+<a class="botao" href="{{url_for('movimentacao_func', modo_escuro=modo_escuro)}}">Voltar</a>
+  <table>
+        <thead>
+            <tr>
+                <th>ID movimentação</th>
+                <th>Quantidade</th>
+                <th>Produto</th>
+                <th>Funcionário</th>
+                <th>Data</th>
+                <th>STATUS</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for movimentacao, produto, funcionario, cat in var_movimentacao %}
+                <tr>
+                    <td>{{movimentacao.ID_movimentacao}}</td>
+                    <td>{{movimentacao.quantidade}}</td>
+                    <td>{{produto.nome_produto}}</td>
+                    <td>{{funcionario.nome_funcionario}}</td>
+                    <td>{{movimentacao.data1}}</td>
+                    {% if movimentacao.status == True: %}
+                        <td>Entrada</td>
+                    {% endif %}
+                    {% if movimentacao.status == False: %}
+                        <td>Saída</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+  </table>
+{% endblock %}

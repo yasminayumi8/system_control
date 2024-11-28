@@ -78,7 +78,7 @@ a:hover{
 }
 
 
-.card{
+.mainTrue .card{
    background-color: #4d5b5b;
    /*inline-block da pra mudar o tamanho*/
 
@@ -93,10 +93,24 @@ a:hover{
    /*para organizar deixar alinhado*/
    float: left;
 }
+.mainFalse .card{
+   background-color: #00b4d8;
+   /*inline-block da pra mudar o tamanho*/
+
+   height: 300px;
+   width: 200px;
+   border-radius: 10px;
+   margin: 10px;
+   font-size: 20px;
+   padding: 10px;
+   font-family: Bahnschrift, sans-serif;
+   /*para organizar deixar alinhado*/
+   float: left;
+}
 .card p{
    padding: 2px;
 }
-.card-detalhes{
+.card-detalhesTrue{
    background-color: #4d5b5b;
    /*inline-block da pra mudar o tamanho*/
    text-align: center;
@@ -113,7 +127,24 @@ a:hover{
    position: fixed;
    top: 20vh;
 }
-.card-detalhes p{
+.card-detalhesFalse{
+   background-color: #00b4d8;
+   /*inline-block da pra mudar o tamanho*/
+   text-align: center;
+   /*height: 200px;*/
+   width: 200px;
+   border-radius: 10px;
+   /*margin: 10px;*/
+   font-size: 20px;
+   padding: 10px;
+   font-family: Bahnschrift, sans-serif;
+   /*para organizar deixar alinhado*/
+   float: left;
+   /*margin-top: 10vh;*/
+   position: fixed;
+   top: 20vh;
+}
+.card-detalhesTrue p, .card-detalhesFalse p{
    padding: 5px;
 }
 input[type=number]::-webkit-inner-spin-button {
@@ -124,7 +155,7 @@ body::-webkit-scrollbar {
     display: none;
 }
 
-.menu{
+.menuTrue{
    background-color: #fffcfc;
    /*inline-block da pra mudar o tamanho*/
    height: 60px;
@@ -137,18 +168,38 @@ body::-webkit-scrollbar {
    float: left;
    text-align: center;
 }
+.menuFalse{
+   background-color: #00b4d8;
+   /*inline-block da pra mudar o tamanho*/
+   height: 60px;
+   width: 9vw;
+   border-radius: 10px;
+   margin: 10px;
+   padding: 10px;
+   font-size: 20px;
+   /*para organizar deixar alinhado*/
+   float: left;
+   text-align: center;
+   color: white;
+}
 
 
-.menu:hover{
+.menuTrue:hover{
    background-color: white;
    /*border: 2px solid black;*/
    transition: transform .2s;
    transform: scale(0.8);
 }
+.menuFalse:hover{
+   background-color: #03045e;
+   /*border: 2px solid black;*/
+   transition: transform .2s;
+   transform: scale(0.8);
+
+}
 
 
-
-.card:hover{
+.mainTrue .card:hover{
    background-color: #77b6af;
 }
 /*.pag {*/
@@ -216,7 +267,7 @@ form{
    color: white;
    position: fixed;
    top: 100px;
-   background-color: yellow;
+   background-color: #ffb703;
 }
 .headerFalse{
    display: block;
@@ -227,7 +278,7 @@ form{
    font-size: 35px;
    position: fixed;
    top: 0;
-   background-color: #00389a;
+   background-color: #03045e;
 }
 
 form input, select, button{
@@ -251,4 +302,72 @@ form input, select, button{
    transition: transform .2s;
    transform: scale(1.4);
    opacity: 50%;
+}
+.display-block{
+   display: block;
+}
+.mainFalse table, .mainFalse th, .mainFalse td{
+   padding: 3px;
+   border: black 2px solid;
+   background-color: white;
+}
+.mainFalse th{
+   background-color: #00b4d8;
+}
+.mainFalse td:hover{
+   background-color: #bbb8b8;
+}
+
+.mainTrue table, .mainTrue th, .mainTrue td{
+   padding: 3px;
+   border: #000000 2px solid;
+   background-color: #b6b4b4;
+   color: black;
+
+}
+.mainTrue th{
+   background-color: #9a9898;
+}
+.mainTrue td:hover{
+   background-color: #dedede;
+}
+.mainTrue .botao{
+   padding: 4px;
+   background-color: white;
+   margin-top:10px;
+   border-radius: 5px;
+}
+.mainFalse .botao{
+   padding: 4px;
+   background-color: #97d9f5;
+   margin-top:10px;
+   border-radius: 5px;
+}
+.mainTrue .card-desativado{
+   color: #404848;
+   background-color: #4d5b5b;
+   /*inline-block da pra mudar o tamanho*/
+   height: 300px;
+   width: 200px;
+   border-radius: 10px;
+   margin: 10px;
+   font-size: 20px;
+   padding: 10px;
+   font-family: Bahnschrift, sans-serif;
+   /*para organizar deixar alinhado*/
+   float: left;
+}
+.mainFalse .card-desativado{
+   color: #375fd5;
+   background-color: #00b4d8;
+   /*inline-block da pra mudar o tamanho*/
+   height: 300px;
+   width: 200px;
+   border-radius: 10px;
+   margin: 10px;
+   font-size: 20px;
+   padding: 10px;
+   font-family: Bahnschrift, sans-serif;
+   /*para organizar deixar alinhado*/
+   float: left;
 }

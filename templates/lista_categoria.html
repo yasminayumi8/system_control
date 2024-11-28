@@ -5,6 +5,7 @@
     {% endif %}
 {% endblock %}
 {% block conteudo %}
+    <a class="botao" href="{{url_for('gerar_tabela_categoria', modo_escuro=modo_escuro)}}">Gerar tabela</a>
 
     {% for categoria in var_categoria %}
         <div class="card">

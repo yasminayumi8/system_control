@@ -1,0 +1,27 @@
+{% extends 'templates-barra-de-pesquisa.html' %}
+
+{% block head %}
+    {% if pesquisa == True: %}
+        <a href="{{url_for('gerar_tabela_categoria', modo_escuro=modo_escuro)}}"><button>Remover filtro</button></a>
+    {% endif %}
+{% endblock %}
+{% block conteudo %}
+<a class="botao" href="{{url_for('categorias_func', modo_escuro=modo_escuro)}}">Voltar</a>
+  <table>
+        <thead>
+            <tr>
+                <th>ID categoria</th>
+                <th>Nome</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in var_categoria %}
+                <tr>
+                    <td>{{c.ID_categoria}}</td>
+                    <td>{{c.nome_cat}}</td>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+  </table>
+{% endblock %}
