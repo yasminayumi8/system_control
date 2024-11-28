@@ -79,6 +79,7 @@ class Funcionario(Base):
     nome_funcionario = Column(String(40), nullable=False, index=True)
     CPF = Column(String(11), nullable=False, index=True, unique=True)
     salario = Column(Float, nullable=False, index=True)
+    status_funcionario = Column(Boolean, nullable=False, default=True)
 
     def __repr__(self):
         return '<funcionarios: {} {}>'.format(self.nome_funcionario, self.ID_funcionario, self.salario)
@@ -97,6 +98,7 @@ class Funcionario(Base):
             'nome_funcionario': self.nome_funcionario,
             'CPF': self.CPF,
             'salario': self.salario,
+            'status_funcionario': self.status_funcionario
         }
         return dados_funcionario
 

@@ -7,6 +7,12 @@
     <input type="number" name="form_CPF" value="{{cpf}}">
     <label>Salario:</label>
     <input type="number" name="form_salario" step="0.01" value="{{edit_funcionario.salario}}">
+    <p>Status do funcionário:</p>
+
+    <input id="ativado" type="radio" name="status_funcionario" value="1" checked>
+    <label for="ativado">Ativado</label>
+    <input id="desativado" type="radio" name="status_funcionario" value="0">
+    <label for="desativado">Desativado</label>
     <hr>
     <button>Salvar</button>
     <button><a href="{{ url_for('funcionarios_func', modo_escuro=modo_escuro) }}">Cancelar</a></button>

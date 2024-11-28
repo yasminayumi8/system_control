@@ -205,7 +205,8 @@ def cadastro_funcionarios_func(modo_escuro):
                 try:
                     form_add = Funcionario(nome_funcionario=nome,
                                            CPF=cpf_f,
-                                           salario=float(salario)
+                                           salario=float(salario),
+                                           status_funcionario=True
                                            )
                     form_add.save()
                     db_session.close()
@@ -478,13 +479,11 @@ def editar_funcionario(id_funcionario, modo_escuro):
     edit_funcionario = select(Funcionario).where(Funcionario.ID_funcionario == id_funcionario)
     edit_funcionario = db_session.execute(edit_funcionario).scalar()
 
-
-
-
     if request.method == 'POST':
         nome = request.form['form_nome_funcionario']
         CPF = request.form['form_CPF']
         salario = request.form['form_salario']
+        status_funcionario = request.form['status_funcionario']
         if not nome or not CPF or not salario:
             flash('Todos os campos devem estar preenchidos!', 'error')
         else:
@@ -499,13 +498,44 @@ def editar_funcionario(id_funcionario, modo_escuro):
                     edit_funcionario.nome_funcionario = nome
                     edit_funcionario.CPF = cpf_f
                     edit_funcionario.salario = salario
-
+                    edit_funcionario.status_funcionario = bool(int(status_funcionario))
                     edit_funcionario.save()
                     flash('Funcionário editado com sucesso!', 'success')
                     return redirect(url_for('funcionarios_func', modo_escuro=modo_escuro))
     # print(f'edit categoria id:{edit_funcionario.ID_funcionario}')
     print(modo_escuro)
     return render_template('editar_funcionario.html', edit_funcionario=edit_funcionario, modo_escuro=modo_escuro, cpf=int(edit_funcionario.CPF.replace('.', '').replace('-', '')))
+
+
+@app.route('/editar-produto<int:id_produto>_<modo_escuro>', methods=['GET', 'POST'])
+def editar_produtos(id_produto, modo_escuro):
+    print(f'ID categoria:{id_produto}')
+
+    edit_produto_sql = select(Produto, Categoria).where(Produto.ID_produto == id_produto)
+    edit_produto = db_session.execute(edit_produto_sql).scalar()
+
+    categorias_sql = select(Categoria)
+    categorias = db_session.execute(categorias_sql).scalars()
+
+    if request.method == 'POST':
+        nome = request.form['form_nome']
+        categoria = request.form['form_id_categoria']
+        fornecedor = request.form['form_fornecedor']
+        descricao = request.form['form_descricao']
+        if not nome:
+            flash('Todos os campos devem estar preenchidos!', 'error')
+        else:
+            edit_produto.nome_produto = nome
+            edit_produto.descricao = descricao
+            edit_produto.fornecedor = fornecedor
+            edit_produto.categoria_id = categoria
+            edit_produto.save()
+            flash('Produto editado com sucesso!', 'success')
+            return redirect(url_for('produtos_func', modo_escuro=modo_escuro))
+    # print(f'edit categoria id:{edit_produto.ID_produto}')
+
+    print(modo_escuro)
+    return render_template('editar_produto.html', edit_produto=edit_produto, modo_escuro=modo_escuro, categorias=categorias)
 
 
 @app.route('/home_', methods=['GET', 'POST'])
