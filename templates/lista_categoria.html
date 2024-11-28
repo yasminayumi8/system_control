@@ -9,7 +9,7 @@
     {% for categoria in var_categoria %}
         <div class="card">
             <p># {{ categoria.ID_categoria }} {{ categoria.nome_cat }}</p>
-            <a href="{{url_for('editar_categoria', id_categoria=categoria.ID_categoria)}}">EDITAR</a>
+            <a href="{{url_for('editar_categoria', id_categoria=categoria.ID_categoria, modo_escuro=modo_escuro)}}">EDITAR</a>
         </div>
 
     {% endfor%}

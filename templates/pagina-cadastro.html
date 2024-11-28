@@ -1,15 +1,15 @@
 {% extends 'templates.html' %}
 {% block conteudo %}
     <div class="menu">
-       <a href="{{url_for('cadastro_categorias_func')}}"> Cadastro da categoria </a>
+       <a href="{{url_for('cadastro_categorias_func', modo_escuro=modo_escuro)}}"> Cadastro da categoria </a>
     </div>
     <div class="menu">
-        <a href="{{url_for('cadastro_funcionarios_func')}}"> Cadastro do funcionario</a>
+        <a href="{{url_for('cadastro_funcionarios_func', modo_escuro=modo_escuro)}}"> Cadastro do funcionario</a>
     </div>
     <div class="menu">
-         <a href="{{url_for('cadastro_movimentacao_func')}}"> Cadastro da Movimentação</a>
+         <a href="{{url_for('cadastro_movimentacao_func', modo_escuro=modo_escuro)}}"> Cadastro da Movimentação</a>
     </div>
     <div class="menu">
-         <a href="{{url_for('cadastro_produtos_func')}}"> Cadastro do produto</a>
+         <a href="{{url_for('cadastro_produtos_func', modo_escuro=modo_escuro)}}"> Cadastro do produto</a>
     </div>
 {% endblock conteudo %}

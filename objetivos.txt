@@ -1,4 +1,5 @@
 - CRUD (verificar se produto/categoria/ existe no cadastro, opção de desativar funcionario,
+   -ataulizar produto
 
 
 - detalhes ✅
@@ -6,5 +7,5 @@
 - filtro ✅
 
 - dashboard (produtos, fornecedores e funcionarios mais presentes em movimentacoes
-
--
+-flash com um card q precisa ser fechado para movimentação (js)
+-repassar verificações de cadastro (campo data por exemplo)

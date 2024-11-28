@@ -1,12 +1,12 @@
 {% extends 'templates.html' %}
 
 {% block conteudo %}
-<form action="{{ url_for('cadastro_categorias_func') }}" method="POST" class="pag">
+<form action="{{ url_for('cadastro_categorias_func', modo_escuro=modo_escuro) }}" method="POST" class="pag">
     <label>Nome da categoria: </label>
     <input type="text" name="form_nome_cat">
     <hr>
     <button>Adicionar</button>
-    <button><a href="{{ url_for('pagina_cadastro_func') }}">Cancelar</a></button>
+    <button><a href="{{ url_for('pagina_cadastro_func', modo_escuro=modo_escuro) }}">Cancelar</a></button>
 </form>
 
 {% endblock %}

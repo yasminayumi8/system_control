@@ -83,7 +83,7 @@ a:hover{
    /*inline-block da pra mudar o tamanho*/
 
 
-   height: 230px;
+   height: 300px;
    width: 200px;
    border-radius: 10px;
    margin: 10px;
@@ -96,7 +96,7 @@ a:hover{
 .card p{
    padding: 2px;
 }
-.card1{
+.card-detalhes{
    background-color: #4d5b5b;
    /*inline-block da pra mudar o tamanho*/
    text-align: center;
@@ -113,7 +113,7 @@ a:hover{
    position: fixed;
    top: 20vh;
 }
-.card1 p{
+.card-detalhes p{
    padding: 5px;
 }
 input[type=number]::-webkit-inner-spin-button {
@@ -228,4 +228,27 @@ form{
    position: fixed;
    top: 0;
    background-color: #00389a;
+}
+
+form input, select, button{
+   padding: 5px;
+   border-radius: 10px;
+}
+.form-modo-escuro{
+   float: right;
+   margin-top: 3vh;
+}
+.botao-modo-escuro{
+   background-color: rgba(173, 216, 230, 0);
+   border: none;
+   float: right;
+}
+.botao-modo-escuro img{
+   width: 50px;
+}
+
+.botao-modo-escuro img:hover{
+   transition: transform .2s;
+   transform: scale(1.4);
+   opacity: 50%;
 }

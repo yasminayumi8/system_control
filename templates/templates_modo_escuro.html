@@ -17,15 +17,17 @@
                 <h1 class="cabecalho{{modo_escuro}}">System control</h1>
 
                 <a href="{{url_for('home', modo_escuro=modo_escuro)}}"><img class="home" src="https://static.thenounproject.com/png/2137554-200.png" alt="Logo"></a>
-<!--                <form action="" method="POST">-->
-<!--                    <span class="modomodo_escuro">-->
-<!--        &lt;!&ndash;                <label for="modo-escuro">Modo Escuro</label>&ndash;&gt;-->
-<!--        &lt;!&ndash;                <input id="modo-escuro" type="checkbox" name="form-checkbox" value="True">&ndash;&gt;-->
+                <form action="{{url_for('modo_escuro_func')}}" class="form-modo-escuro" method="POST">
+                    <span class="modo{{modo_escuro}}">
+        <!--                <label for="modo-escuro">Modo Escuro</label>-->
+        <!--                <input id="modo-escuro" type="checkbox" name="form-checkbox" value="True">-->
 
-<!--                        <button name="form-checkbox" value="modo_escuro">Modo Escuro</button>-->
+                            <button name="form-checkbox" value="{{modo_escuro}}" class="botao-modo-escuro">
+                                <img src="https://static.thenounproject.com/png/4066357-200.png" alt="Light" width="10%">
+                            </button>
 
-<!--                    </span>-->
-<!--                </form>-->
+                    </span>
+                </form>
             </header>
             <nav class="nav{{modo_escuro}}">
                 <div class="menu">

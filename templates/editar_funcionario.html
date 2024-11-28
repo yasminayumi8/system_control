@@ -1,6 +1,6 @@
 {% extends 'templates.html' %}
 {% block conteudo %}
-<form action="{{ url_for('editar_funcionario', id_funcionario=edit_funcionario.ID_funcionario) }}" method="POST" class="pag">
+<form action="{{ url_for('editar_funcionario', id_funcionario=edit_funcionario.ID_funcionario, modo_escuro=modo_escuro) }}" method="POST" class="pag">
     <label>Nome do Funcionario: </label>
     <input type="text" name="form_nome_funcionario" value="{{edit_funcionario.nome_funcionario}}">
     <label>CPF:</label>
@@ -8,8 +8,8 @@
     <label>Salario:</label>
     <input type="number" name="form_salario" step="0.01" value="{{edit_funcionario.salario}}">
     <hr>
-    <button>Adicionar</button>
-    <button><a href="{{ url_for('funcionarios_func') }}">Cancelar</a></button>
+    <button>Salvar</button>
+    <button><a href="{{ url_for('funcionarios_func', modo_escuro=modo_escuro) }}">Cancelar</a></button>
 </form>
 
 {% endblock %}

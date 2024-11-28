@@ -67,21 +67,25 @@ def index():
 @app.route('/home', methods=['GET'])
 @app.route('/home_<modo_escuro>', methods=['GET'])
 def home(modo_escuro=None):
+    print(f'modo escur {modo_escuro}')
     if modo_escuro is None:
-        return render_template('templates.html', modo_escuro=False)
+        return render_template('templates_modo_escuro.html', modo_escuro=False)
     else:
-        return render_template('templates.html', modo_escuro=modo_escuro)
+        print(f'modo escuro else {modo_escuro}')
+        return render_template('templates_modo_escuro.html', modo_escuro=modo_escuro)
+
     # else:
     #     return render_template('templates.html', modo_escuro=modo_escuro)
 
 
-@app.route('/cadastro', methods=['GET'])
-def pagina_cadastro_func():
-    return render_template('pagina-cadastro.html')
+# @app.route('/cadastro', methods=['GET'])
+@app.route('/cadastro_<modo_escuro>', methods=['GET'])
+def pagina_cadastro_func(modo_escuro):
+    return render_template('pagina-cadastro.html', modo_escuro=modo_escuro)
 
-@app.route('/categoria', methods=['GET', 'POST'])
+# @app.route('/categoria', methods=['GET', 'POST'])
 @app.route('/categoria_<modo_escuro>', methods=['GET', 'POST'])
-def categorias_func(modo_escuro=None):
+def categorias_func(modo_escuro):
     # if modo_escuro is None or modo_escuro == 'True':
     #     modo_escuro = False
     # else:
@@ -139,14 +143,14 @@ def produtos_func(modo_escuro):
                            modo_escuro=modo_escuro)
 
 
-@app.route('/produto_<id_produto>')
-def produto_detalhes_func(id_produto):
+@app.route('/produto_<id_produto>_<modo_escuro>', methods=['GET', 'POST'])
+def produto_detalhes_func(id_produto, modo_escuro):
     lista_produtos = select(Produto, Categoria).join(
         Categoria, Produto.categoria_id == Categoria.ID_categoria).where(
         Produto.ID_produto == id_produto
     )
     lista_produtos = db_session.execute(lista_produtos).fetchone()
-    return render_template('produto-detalhes.html', var_produto=lista_produtos)
+    return render_template('produto-detalhes.html', var_produto=lista_produtos, modo_escuro=modo_escuro)
 
 
 @app.route('/movimentacao_<modo_escuro>', methods=['GET', 'POST'])
@@ -168,8 +172,8 @@ def movimentacao_func(modo_escuro):
                            modo_escuro=modo_escuro)
 
 
-@app.route('/cadastro/categoria', methods=['GET', 'POST'])
-def cadastro_categorias_func():
+@app.route('/cadastro/categoria_<modo_escuro>', methods=['GET', 'POST'])
+def cadastro_categorias_func(modo_escuro):
     if request.method == "POST":
         nome = request.form['form_nome_cat']
 
@@ -181,11 +185,11 @@ def cadastro_categorias_func():
             db_session.close()
             flash('Categoria cadastrada com sucesso!', 'success')
 
-    return render_template('cadastro_categoria.html')
+    return render_template('cadastro_categoria.html', modo_escuro=modo_escuro)
 
 
-@app.route('/cadastro/funcionario', methods=['GET', 'POST'])
-def cadastro_funcionarios_func():
+@app.route('/cadastro/funcionario_<modo_escuro>', methods=['GET', 'POST'])
+def cadastro_funcionarios_func(modo_escuro):
     if request.method == "POST":
         nome = request.form['form_nome_funcionario']
         cpf = request.form['form_CPF']
@@ -208,11 +212,12 @@ def cadastro_funcionarios_func():
                     flash('Funcionário cadastrado com sucesso!', 'success')
                 except sqlalchemy.exc.IntegrityError:
                     flash('Algo ocorreu errado! Verifique se os campos estão corretos')
-    return render_template('cadastro_funcionario.html')
+    return render_template('cadastro_funcionario.html', modo_escuro=modo_escuro)
 
 
-@app.route('/cadastro/produtos', methods=['GET', 'POST'])
-def cadastro_produtos_func():
+@app.route('/cadastro/produtos_<modo_escuro>', methods=['GET', 'POST'])
+def cadastro_produtos_func(modo_escuro):
+    # select das categorias para exibir um spinner com as categorias existentes
     lista_cat = select(Categoria)
     lista_categoria = db_session.execute(lista_cat).scalars()
     resultado = []
@@ -244,11 +249,11 @@ def cadastro_produtos_func():
             db_session.close()
             flash('Produto cadastrado com sucesso!', 'success')
 
-    return render_template('cadastro_produto.html', categorias=resultado)
+    return render_template('cadastro_produto.html', categorias=resultado, modo_escuro=modo_escuro)
 
 
-@app.route('/cadastro/movimentacao', methods=['GET', 'POST'])
-def cadastro_movimentacao_func():
+@app.route('/cadastro/movimentacao_<modo_escuro>', methods=['GET', 'POST'])
+def cadastro_movimentacao_func(modo_escuro):
     lista_funcionarios = select(Funcionario).select_from(Funcionario)
     lista_funcionarios = db_session.execute(lista_funcionarios).scalars()
     resultado_funcionario = []
@@ -319,7 +324,7 @@ def cadastro_movimentacao_func():
 
                             db_session.close()
 
-    return render_template('cadastro_movimentacao.html', funcionarios=resultado_funcionario, produtos=resultado_produto)
+    return render_template('cadastro_movimentacao.html', funcionarios=resultado_funcionario, produtos=resultado_produto, modo_escuro=modo_escuro)
 
 
 dicionario_classes = {
@@ -447,8 +452,8 @@ lista_saida = ['saida', 's', 'sa', 'sai', 'said']
 lista_entrada = ['entrada', 'e', 'en', 'entr', 'entra', 'entrad']
 
 
-@app.route('/editar-categoria<int:id_categoria>', methods=['GET', 'POST'])
-def editar_categoria(id_categoria):
+@app.route('/editar-categoria<int:id_categoria>_<modo_escuro>', methods=['GET', 'POST'])
+def editar_categoria(id_categoria, modo_escuro):
     print(f'ID categoria:{id_categoria}')
     edit_categoria = select(Categoria).where(Categoria.ID_categoria == id_categoria)
     edit_categoria = db_session.execute(edit_categoria).scalar()
@@ -461,13 +466,14 @@ def editar_categoria(id_categoria):
             edit_categoria.nome_cat = nome
             edit_categoria.save()
             flash('Categoria editada com sucesso!', 'success')
-            return redirect(url_for('categorias_func'))
+            return redirect(url_for('categorias_func', modo_escuro=modo_escuro))
     print(f'edit categoria id:{edit_categoria.ID_categoria}')
-    return render_template('editar_categoria.html', edit_categoria=edit_categoria)
+    print(modo_escuro)
+    return render_template('editar_categoria.html', edit_categoria=edit_categoria, modo_escuro=modo_escuro)
 
 
-@app.route('/editar-funcionario<int:id_funcionario>', methods=['GET', 'POST'])
-def editar_funcionario(id_funcionario):
+@app.route('/editar-funcionario<int:id_funcionario>_<modo_escuro>', methods=['GET', 'POST'])
+def editar_funcionario(id_funcionario, modo_escuro):
     print(f'ID categoria:{id_funcionario}')
     edit_funcionario = select(Funcionario).where(Funcionario.ID_funcionario == id_funcionario)
     edit_funcionario = db_session.execute(edit_funcionario).scalar()
@@ -496,9 +502,10 @@ def editar_funcionario(id_funcionario):
 
                     edit_funcionario.save()
                     flash('Funcionário editado com sucesso!', 'success')
-                    return redirect(url_for('funcionarios_func'))
+                    return redirect(url_for('funcionarios_func', modo_escuro=modo_escuro))
     # print(f'edit categoria id:{edit_funcionario.ID_funcionario}')
-    return render_template('editar_funcionario.html', edit_funcionario=edit_funcionario, cpf=int(edit_funcionario.CPF.replace('.', '').replace('-', '')))
+    print(modo_escuro)
+    return render_template('editar_funcionario.html', edit_funcionario=edit_funcionario, modo_escuro=modo_escuro, cpf=int(edit_funcionario.CPF.replace('.', '').replace('-', '')))
 
 
 @app.route('/home_', methods=['GET', 'POST'])
@@ -511,7 +518,7 @@ def modo_escuro_func():
         valor = True
     valor_trocado = not valor
     print(f'trocado: {valor_trocado}')
-    return render_template('templates.html', modo_escuro=valor_trocado)
+    return render_template('templates_modo_escuro.html', modo_escuro=valor_trocado)
 
 
 if __name__ == '__main__':
