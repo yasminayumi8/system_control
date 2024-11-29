@@ -1,28 +1,29 @@
 {% extends 'templates.html' %}
 {% block conteudo %}
-<form action="{{ url_for('editar_produtos', id_produto=edit_produto.ID_produto, modo_escuro=modo_escuro) }}" method="POST" class="pag">
-    <label>Nome do produto: </label>
-    <input type="text" name="form_nome" value="{{edit_produto.nome_produto}}">
+<div class="box">
+    <form action="{{ url_for('editar_produtos', id_produto=edit_produto.ID_produto, modo_escuro=modo_escuro) }}" method="POST" class="pag">
+        <label>Nome do produto: </label>
+        <input type="text" name="form_nome" value="{{edit_produto.nome_produto}}">
 
-    <label>Fornecedor: </label>
-    <input type="text" name="form_fornecedor" value="{{edit_produto.fornecedor}}">
-    <label>Categoria:</label>
-    <select name="form_id_categoria">
+        <label>Fornecedor: </label>
+        <input type="text" name="form_fornecedor" value="{{edit_produto.fornecedor}}">
+        <label>Categoria:</label>
+        <select name="form_id_categoria">
 
-        {% for categoria in categorias: %}
-            {% if edit_produto.categoria_id == categoria.ID_categoria %}
-                <option selected value="{{categoria.ID_categoria}}">{{categoria.nome_cat}}</option>
-            {% else %}
-                <option value="{{categoria.ID_categoria}}">{{categoria.nome_cat}}</option>
-            {% endif %}
+            {% for categoria in categorias: %}
+                {% if edit_produto.categoria_id == categoria.ID_categoria %}
+                    <option selected value="{{categoria.ID_categoria}}">{{categoria.nome_cat}}</option>
+                {% else %}
+                    <option value="{{categoria.ID_categoria}}">{{categoria.nome_cat}}</option>
+                {% endif %}
 
-        {% endfor %}
-    </select>
-    <label>Descrição: </label>
-    <input type="text" name="form_descricao" value="{{edit_produto.descricao}}">
-    <hr>
-    <button>Salvar</button>
-    <a href="{{ url_for('produtos_func', modo_escuro=modo_escuro) }}">Cancelar</a>
-</form>
-
+            {% endfor %}
+        </select>
+        <label>Descrição: </label>
+        <input type="text" name="form_descricao" value="{{edit_produto.descricao}}">
+        <hr>
+        <button>Salvar</button>
+        <a href="{{ url_for('produtos_func', modo_escuro=modo_escuro) }}">Cancelar</a>
+    </form>
+</div>
 {% endblock %}

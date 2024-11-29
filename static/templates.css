@@ -371,15 +371,16 @@ form input, select, button{
 .mainTrue .botao{
    padding: 4px;
    background-color: white;
-   margin:10px;
+   margin:30px;
    border-radius: 5px;
+
 }
 .mainFalse .botao{
    padding: 4px;
    background-color: #97d9f5;
    /*margin-top:10px;*/
    border-radius: 5px;
-   margin: 20px;
+   margin: 30px;
 }
 
 .mainTrue .botao-display-block{

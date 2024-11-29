@@ -17,8 +17,8 @@
             <p>Fabricante: {{produto.fornecedor}}</p>
             <p>{{produto.data}}</p>
 
-            <a href="{{url_for('produto_detalhes_func', id_produto=produto.ID_produto, modo_escuro=modo_escuro)}}">Mais...</a>
-            <a class="display-block" href="{{url_for('editar_produtos', id_produto=produto.ID_produto, modo_escuro=modo_escuro)}}">Editar</a>
+            <a class="display-block" href="{{url_for('produto_detalhes_func', id_produto=produto.ID_produto, modo_escuro=modo_escuro)}}">Mais...</a>
+            <a class="botao" href="{{url_for('editar_produtos', id_produto=produto.ID_produto, modo_escuro=modo_escuro)}}">Editar</a>
         </div>
     {% endfor%}
 {% endblock %}

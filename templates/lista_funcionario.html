@@ -18,7 +18,7 @@
                 {% if funcionario.status_funcionario == False: %}
                     <p>Desativado</p>
                 {% endif %}
-                <p><a href="{{url_for('editar_funcionario', id_funcionario=funcionario.ID_funcionario, modo_escuro=modo_escuro)}}">EDITAR</a></p>
+                <p><a class="botao" href="{{url_for('editar_funcionario', id_funcionario=funcionario.ID_funcionario, modo_escuro=modo_escuro)}}">EDITAR</a></p>
             </div>
         {% else %}
             <div class="card-desativado">

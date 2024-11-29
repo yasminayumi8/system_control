@@ -1,21 +1,22 @@
 {% extends 'templates.html' %}
 {% block conteudo %}
-<form action="{{ url_for('editar_funcionario', id_funcionario=edit_funcionario.ID_funcionario, modo_escuro=modo_escuro) }}" method="POST" class="pag">
-    <label>Nome do Funcionario: </label>
-    <input type="text" name="form_nome_funcionario" value="{{edit_funcionario.nome_funcionario}}">
-    <label>CPF:</label>
-    <input type="number" name="form_CPF" value="{{cpf}}">
-    <label>Salario:</label>
-    <input type="number" name="form_salario" step="0.01" value="{{edit_funcionario.salario}}">
-    <p>Status do funcionário:</p>
+<div class="box">
+    <form action="{{ url_for('editar_funcionario', id_funcionario=edit_funcionario.ID_funcionario, modo_escuro=modo_escuro) }}" method="POST" class="pag">
+        <label>Nome do Funcionario: </label>
+        <input type="text" name="form_nome_funcionario" value="{{edit_funcionario.nome_funcionario}}">
+        <label>CPF:</label>
+        <input type="number" name="form_CPF" value="{{cpf}}">
+        <label>Salario:</label>
+        <input type="number" name="form_salario" step="0.01" value="{{edit_funcionario.salario}}">
+        <p>Status do funcionário:</p>
 
-    <input id="ativado" type="radio" name="status_funcionario" value="1" checked>
-    <label for="ativado">Ativado</label>
-    <input id="desativado" type="radio" name="status_funcionario" value="0">
-    <label for="desativado">Desativado</label>
-    <hr>
-    <button>Salvar</button>
-    <a href="{{ url_for('funcionarios_func', modo_escuro=modo_escuro) }}">Cancelar</a>
-</form>
-
+        <input id="ativado" type="radio" name="status_funcionario" value="1" checked>
+        <label for="ativado">Ativado</label>
+        <input id="desativado" type="radio" name="status_funcionario" value="0">
+        <label for="desativado">Desativado</label>
+        <hr>
+        <button>Salvar</button>
+        <a href="{{ url_for('funcionarios_func', modo_escuro=modo_escuro) }}">Cancelar</a>
+    </form>
+</div>
 {% endblock %}
