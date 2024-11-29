@@ -6,12 +6,13 @@
 {% endblock %}
 {% block conteudo %}
     <a class="botao-display-block" href="{{url_for('gerar_tabela_categoria', modo_escuro=modo_escuro)}}">Gerar tabela</a>
+    <div class="container">
+        {% for categoria in var_categoria %}
+            <div class="card">
+                <p># {{ categoria.ID_categoria }} {{ categoria.nome_cat }}</p>
+                <a class="botao" href="{{url_for('editar_categoria', id_categoria=categoria.ID_categoria, modo_escuro=modo_escuro)}}">EDITAR</a>
+            </div>
 
-    {% for categoria in var_categoria %}
-        <div class="card">
-            <p># {{ categoria.ID_categoria }} {{ categoria.nome_cat }}</p>
-            <a class="botao" href="{{url_for('editar_categoria', id_categoria=categoria.ID_categoria, modo_escuro=modo_escuro)}}">EDITAR</a>
-        </div>
-
-    {% endfor%}
+        {% endfor%}
+    </div>
 {% endblock %}

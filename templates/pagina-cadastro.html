@@ -1,6 +1,6 @@
 {% extends 'templates.html' %}
 {% block conteudo %}
-    <div class="container">
+    <div class="box">
         <a class="menu_cadastro{{modo_escuro}}" href="{{url_for('cadastro_categorias_func', modo_escuro=modo_escuro)}}"> Cadastro da categoria </a>
         <a class="menu_cadastro{{modo_escuro}}" href="{{url_for('cadastro_funcionarios_func', modo_escuro=modo_escuro)}}"> Cadastro do funcionario</a>
         <a class="menu_cadastro{{modo_escuro}}" href="{{url_for('cadastro_movimentacao_func', modo_escuro=modo_escuro)}}"> Cadastro da Movimentação</a>

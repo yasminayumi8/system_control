@@ -1,6 +1,6 @@
 {% extends 'templates.html' %}
 {% block conteudo %}
-    <div class="container">
+    <div class="box">
         <form action="{{ url_for('cadastro_funcionarios_func', modo_escuro=modo_escuro) }}" method="POST" class="pag">
             <label>Nome do Funcionario: </label>
             <input type="text" name="form_nome_funcionario">
