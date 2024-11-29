@@ -11,7 +11,7 @@ html {
    font-size: 20px;
 }
 .bodyTrue{
-   background-color: #000000;
+   background-color: #524f4f;
 
 }
 
@@ -65,7 +65,7 @@ a:hover{
 }
 
 .mainTrue{
-    background-color: #020101;
+    background-color: #524f4f;
    display: inline-block;
    /*largura da tela*/
    width: 75%;
@@ -200,10 +200,25 @@ body::-webkit-scrollbar {
     margin-left: 48px;
 
 }
+.menu_cadastroTrue{
+   background-color:  #fffcfc;
+   /*inline-block da pra mudar o tamanho*/
+   height: 60px;
+   width: 9vw;
+   border-radius: 10px;
+   margin: 10px;
+   padding: 10px;
+   font-size: 20px;
+   /*para organizar deixar alinhado*/
+   float: left;
+   text-align: center;
+   color: white;
+    margin-left: 48px;
 
+}
 
 .menuTrue:hover{
-   background-color: white;
+   background-color: #6b6161;
    /*border: 2px solid black;*/
    transition: transform .2s;
    transform: scale(0.8);
@@ -218,7 +233,7 @@ body::-webkit-scrollbar {
 
 
 .mainTrue .card:hover{
-   background-color: #77b6af;
+   background-color: #03045e;
 }
 /*.pag {*/
 /*   background-color: #51f21b;*/

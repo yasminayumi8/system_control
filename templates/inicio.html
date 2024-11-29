@@ -1,5 +1,10 @@
 {% extends 'templates_modo_escuro.html' %}
 
 {% block conteudo %}
-<img class="inicial" src="/static/Inserir um pouquinho de texto.png" alt="" width="850" height="500">
+    {% if modo_escuro == False %}
+        <img class="inicial" src="/static/Inserir um pouquinho de texto (2).png" alt="" width="850" height="500">
+    {% else %}
+        <img class="inicial" src="/static/modo escuro.png" alt="" width="850" height="500">
+    {% endif %}
+
 {% endblock %}

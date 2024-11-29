@@ -72,10 +72,10 @@ def home(modo_escuro=None):
     print(f'modo escur {modo_escuro}')
     funcionario_sql = select(Funcionario).where()
     if modo_escuro is None:
-        return render_template('templates_modo_escuro.html', modo_escuro=False, home_=True)
+        return render_template('inicio.html', modo_escuro=False, home_=True)
     else:
         print(f'modo escuro else {modo_escuro}')
-        return render_template('templates_modo_escuro.html', modo_escuro=modo_escuro, home_=True)
+        return render_template('inicio.html', modo_escuro=modo_escuro, home_=True)
 
     # else:
     #     return render_template('templates.html', modo_escuro=modo_escuro)
@@ -644,7 +644,7 @@ def modo_escuro_func(home_):
     valor_trocado = not valor
     print(f'trocado: {valor_trocado}')
     if home_ == 'True':
-        return render_template('templates_modo_escuro.html', modo_escuro=valor_trocado, home_=home_)
+        return render_template('inicio.html', modo_escuro=valor_trocado, home_=home_)
     else:
         resultados = (
             db_session.query(
