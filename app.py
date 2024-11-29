@@ -1,8 +1,11 @@
 import sqlalchemy
 from flask import Flask, render_template, request, redirect, url_for, flash
-from sqlalchemy import select
-from models import Categoria, Produto, db_session, Funcionario, Movimentacao
+from sqlalchemy import select, func, desc, asc
 
+from models import Categoria, Produto, db_session, Funcionario, Movimentacao
+# import plotly.graph_objects as go
+import plotly.express as px
+import plotly.io as pio
 
 def dicionario_colunas_movimentacao():
     dicion = {
@@ -69,10 +72,10 @@ def home(modo_escuro=None):
     print(f'modo escur {modo_escuro}')
     funcionario_sql = select(Funcionario).where()
     if modo_escuro is None:
-        return render_template('inicio.html', modo_escuro=False)
+        return render_template('templates_modo_escuro.html', modo_escuro=False, home_=True)
     else:
         print(f'modo escuro else {modo_escuro}')
-        return render_template('inicio.html', modo_escuro=modo_escuro)
+        return render_template('templates_modo_escuro.html', modo_escuro=modo_escuro, home_=True)
 
     # else:
     #     return render_template('templates.html', modo_escuro=modo_escuro)
@@ -380,7 +383,8 @@ def pesquisar_func(class_, modo_escuro, tabela):
                                            dicio=dicion,
                                            class_=class_,
                                            pesquisa=True,
-                                           modo_escuro=modo_escuro
+                                           modo_escuro=modo_escuro,
+                                           tabela=tabela
                                            )
                 else:
                     return render_template('tabela-categoria.html',
@@ -389,7 +393,8 @@ def pesquisar_func(class_, modo_escuro, tabela):
                                            dicio=dicion,
                                            class_=class_,
                                            pesquisa=True,
-                                           modo_escuro=modo_escuro
+                                           modo_escuro=modo_escuro,
+                                           tabela=tabela
                                            )
             else:
                 for result in lista_resultados:
@@ -402,7 +407,8 @@ def pesquisar_func(class_, modo_escuro, tabela):
                                            dicio=dicion,
                                            class_=class_,
                                            pesquisa=True,
-                                           modo_escuro=modo_escuro)
+                                           modo_escuro=modo_escuro,
+                                           tabela=tabela)
                 else:
                     return render_template('tabela-funcionario.html',
                                            var_funcionario=resultado,
@@ -410,7 +416,8 @@ def pesquisar_func(class_, modo_escuro, tabela):
                                            dicio=dicion,
                                            class_=class_,
                                            pesquisa=True,
-                                           modo_escuro=modo_escuro)
+                                           modo_escuro=modo_escuro,
+                                           tabela=tabela)
         elif classe == Produto:
             if campo == 'nome_cat':
                 classe = Categoria
@@ -433,7 +440,8 @@ def pesquisar_func(class_, modo_escuro, tabela):
                                        dicio=dicion,
                                        class_=class_,
                                        pesquisa=True,
-                                       modo_escuro=modo_escuro)
+                                       modo_escuro=modo_escuro,
+                                       tabela=tabela)
             else:
                 return render_template('tabela-produto.html',
                                        var_produto=resultado,
@@ -441,7 +449,8 @@ def pesquisar_func(class_, modo_escuro, tabela):
                                        dicio=dicion,
                                        class_=class_,
                                        pesquisa=True,
-                                       modo_escuro=modo_escuro)
+                                       modo_escuro=modo_escuro,
+                                       tabela=tabela)
         elif classe == Movimentacao:
             if campo in ['ID_produto', 'nome_produto', "fornecedor"]:
                 classe = Produto
@@ -481,7 +490,8 @@ def pesquisar_func(class_, modo_escuro, tabela):
                                        dicio=dicion,
                                        class_=class_,
                                        pesquisa=True,
-                                       modo_escuro=modo_escuro)
+                                       modo_escuro=modo_escuro,
+                                       tabela=tabela)
             else:
                 print('tabelaaaaa')
                 return render_template('tabela-movimentacao.html',
@@ -490,7 +500,8 @@ def pesquisar_func(class_, modo_escuro, tabela):
                                        dicio=dicion,
                                        class_=class_,
                                        pesquisa=True,
-                                       modo_escuro=modo_escuro)
+                                       modo_escuro=modo_escuro,
+                                       tabela=tabela)
 
 
 lista_saida = ['saida', 's', 'sa', 'sai', 'said']
@@ -622,8 +633,8 @@ def gerar_tabela_funcionario(modo_escuro):
                            tabela=True)
 
 
-@app.route('/home_', methods=['GET', 'POST'])
-def modo_escuro_func():
+@app.route('/home_<home_>', methods=['GET', 'POST'])
+def modo_escuro_func(home_):
     checkbox = request.form['form-checkbox']
     print(checkbox)
     if checkbox == 'False':
@@ -632,7 +643,38 @@ def modo_escuro_func():
         valor = True
     valor_trocado = not valor
     print(f'trocado: {valor_trocado}')
-    return render_template('templates_modo_escuro.html', modo_escuro=valor_trocado)
+    if home_ == 'True':
+        return render_template('templates_modo_escuro.html', modo_escuro=valor_trocado, home_=home_)
+    else:
+        resultados = (
+            db_session.query(
+                Funcionario.ID_funcionario.label("funcionario_id"),
+                Funcionario.nome_funcionario.label("funcionario_nome"),
+                func.count(Movimentacao.ID_movimentacao).label("total_movimentacoes")
+            )
+            .join(Movimentacao, Funcionario.ID_funcionario == Movimentacao.funcionario_id)
+            .group_by(Funcionario.ID_funcionario, Funcionario.nome_funcionario)
+            .order_by(desc('total_movimentacoes'))
+            .limit(6)
+            .all()
+        )
+        print(resultados)
+        labels = []
+        dados = []
+        for id_, nome, num in resultados:
+            print(id_, nome, num)
+            labels.append(nome)
+            dados.append(num)
+        data = {
+            'Funcionários': labels,
+            'Nº de movimentações': dados
+        }
+        print(data)
+        # criando grafico com plotly express
+        fig = px.histogram(data, x='Funcionários', y='Nº de movimentações')
+        # convertendo grafico em html
+        graph_html = pio.to_html(fig, full_html=False)
+        return render_template('dashboard.html', modo_escuro=valor_trocado, home_=home_, graph_html=graph_html)
 
 
 @app.route('/categoria/tabela_<modo_escuro>')
@@ -670,6 +712,39 @@ def gerar_tabela_produto(modo_escuro):
                            dicio=dicion,
                            modo_escuro=modo_escuro,
                            tabela=True)
+
+
+@app.route('/dashboard<modo_escuro>', methods=['GET', 'POST'])
+def dashboard_func(modo_escuro):
+    resultados = (
+        db_session.query(
+            Funcionario.ID_funcionario.label("funcionario_id"),
+            Funcionario.nome_funcionario.label("funcionario_nome"),
+            func.count(Movimentacao.ID_movimentacao).label("total_movimentacoes")
+        )
+        .join(Movimentacao, Funcionario.ID_funcionario == Movimentacao.funcionario_id)
+        .group_by(Funcionario.ID_funcionario, Funcionario.nome_funcionario)
+        .order_by(desc('total_movimentacoes'))
+        .limit(6)
+        .all()
+    )
+    print(resultados)
+    labels = []
+    dados = []
+    for id_, nome, num in resultados:
+        print(id_, nome, num)
+        labels.append(nome)
+        dados.append(num)
+    data = {
+        'Funcionários': labels,
+        'Nº de movimentações': dados
+    }
+    print(data)
+    # criando grafico com plotly express
+    fig = px.histogram(data, x='Funcionários', y='Nº de movimentações', color='Nº de movimentações')
+    # convertendo grafico em html
+    graph_html = pio.to_html(fig, full_html=False)
+    return render_template('dashboard.html', modo_escuro=modo_escuro, home_=False, graph_html=graph_html)
 
 
 if __name__ == '__main__':

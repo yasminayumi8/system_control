@@ -19,7 +19,8 @@
                 <img class="imagem" src="/static/Logo%20simples%20circular%20esmaltaria%20preto%20(2).png" alt="" width="80" height="80">
 
                 <a href="{{url_for('home', modo_escuro=modo_escuro)}}"><img class="home" src="https://cdn-icons-png.flaticon.com/512/25/25694.png" alt="Logo"></a>
-                <form action="{{url_for('modo_escuro_func')}}" class="form-modo-escuro" method="POST">
+                <a href="{{url_for('dashboard_func', modo_escuro=modo_escuro)}}"><img class="icon-dashboard" src="https://cdn-icons-png.flaticon.com/512/3037/3037106.png" alt="Dashboard"></a>
+                <form action="{{url_for('modo_escuro_func', home_=home_)}}" class="form-modo-escuro" method="POST">
                     <span class="modo{{modo_escuro}}">
         <!--                <label for="modo-escuro">Modo Escuro</label>-->
         <!--                <input id="modo-escuro" type="checkbox" name="form-checkbox" value="True">-->

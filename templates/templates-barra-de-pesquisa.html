@@ -14,6 +14,8 @@
     <header class="header{{modo_escuro}}">
         <img class="imagem" src="/static/Logo%20simples%20circular%20esmaltaria%20preto%20(2).png" alt="" width="80" height="80">
 <!--        <h1><strong>System control</strong></h1>-->
+        <a href="{{url_for('dashboard_func', modo_escuro=modo_escuro)}}"><img class="icon-dashboard" src="https://cdn-icons-png.flaticon.com/512/3037/3037106.png" alt="Dashboard"></a>
+
         <form action="{{url_for('pesquisar_func', class_=class_, modo_escuro=modo_escuro, tabela=tabela)}}" method="post">
             <span class="display-block">
 <!--                <h1>}</h1>-->
