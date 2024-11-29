@@ -6,33 +6,36 @@
     {% endif %}
 {% endblock %}
 {% block conteudo %}
-<a class="botao" href="{{url_for('funcionarios_func', modo_escuro=modo_escuro)}}">Voltar</a>
-  <table>
-        <thead>
-            <tr>
-                <th>ID funcionário</th>
-                <th>Nome</th>
-                <th>CPF</th>
-                <th>Salário</th>
-                <th>STATUS</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for f in var_funcionario %}
-                <tr>
-                    <td>{{f.ID_funcionario}}</td>
-                    <td>{{f.nome_funcionario}}</td>
-                    <td>{{f.CPF}}</td>
-                    <td>{{f.salario}}</td>
 
-                    {% if f.status_funcionario == True: %}
-                        <td>Ativo</td>
-                    {% endif %}
-                    {% if f.status_funcionario == False: %}
-                        <td>Desativado</td>
-                    {% endif %}
+<a class="botao" href="{{url_for('funcionarios_func', modo_escuro=modo_escuro)}}">Voltar</a>
+<div class="box">
+      <table>
+            <thead>
+                <tr>
+                    <th>ID funcionário</th>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Salário</th>
+                    <th>STATUS</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-  </table>
+            </thead>
+            <tbody>
+                {% for f in var_funcionario %}
+                    <tr>
+                        <td>{{f.ID_funcionario}}</td>
+                        <td>{{f.nome_funcionario}}</td>
+                        <td>{{f.CPF}}</td>
+                        <td>{{f.salario}}</td>
+
+                        {% if f.status_funcionario == True: %}
+                            <td>Ativo</td>
+                        {% endif %}
+                        {% if f.status_funcionario == False: %}
+                            <td>Desativado</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+      </table>
+</div>
 {% endblock %}

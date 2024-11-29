@@ -7,29 +7,31 @@
 {% endblock %}
 {% block conteudo %}
 <a class="botao" href="{{url_for('produtos_func', modo_escuro=modo_escuro)}}">Voltar</a>
-  <table>
-        <thead>
-            <tr>
-                <th>ID produto</th>
-                <th>Nome</th>
-                <th>Qtde. (estoque)</th>
-                <th>Fornecedor</th>
-                <th>Categoria</th>
-                <th>Descrição</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for p, c in var_produto %}
+<div class="box">
+      <table>
+            <thead>
                 <tr>
-                    <td>{{p.ID_produto}}</td>
-                    <td>{{p.nome_produto}}</td>
-                    <td>{{p.quantidade}}</td>
-                    <td>{{p.fornecedor}}</td>
-                    <td>{{c.nome_cat}}</td>
-                    <td>{{p.descricao}}</td>
-
+                    <th>ID produto</th>
+                    <th>Nome</th>
+                    <th>Qtde. (estoque)</th>
+                    <th>Fornecedor</th>
+                    <th>Categoria</th>
+                    <th>Descrição</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-  </table>
+            </thead>
+            <tbody>
+                {% for p, c in var_produto %}
+                    <tr>
+                        <td>{{p.ID_produto}}</td>
+                        <td>{{p.nome_produto}}</td>
+                        <td>{{p.quantidade}}</td>
+                        <td>{{p.fornecedor}}</td>
+                        <td>{{c.nome_cat}}</td>
+                        <td>{{p.descricao}}</td>
+
+                    </tr>
+                {% endfor %}
+            </tbody>
+      </table>
+</div>
 {% endblock %}

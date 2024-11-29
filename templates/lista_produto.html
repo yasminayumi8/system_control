@@ -6,7 +6,7 @@
     {% endif %}
 {% endblock %}
 {% block conteudo %}
-    <a class="botao" href="{{url_for('gerar_tabela_produto', modo_escuro=modo_escuro)}}">Gerar tabela</a>
+    <a class="botao-display-block" href="{{url_for('gerar_tabela_produto', modo_escuro=modo_escuro)}}">Gerar tabela</a>
     <h2>* A quantidade dos produtos em estoque é definida com as movimentações</h2>
     {% for produto, cat in var_produto %}
         <div class="card">
