@@ -1,7 +1,6 @@
 import sqlalchemy
 from flask import Flask, render_template, request, redirect, url_for, flash
 from sqlalchemy import select
-
 from models import Categoria, Produto, db_session, Funcionario, Movimentacao
 
 
@@ -70,10 +69,10 @@ def home(modo_escuro=None):
     print(f'modo escur {modo_escuro}')
     funcionario_sql = select(Funcionario).where()
     if modo_escuro is None:
-        return render_template('templates_modo_escuro.html', modo_escuro=False)
+        return render_template('inicio.html', modo_escuro=False)
     else:
         print(f'modo escuro else {modo_escuro}')
-        return render_template('templates_modo_escuro.html', modo_escuro=modo_escuro)
+        return render_template('inicio.html', modo_escuro=modo_escuro)
 
     # else:
     #     return render_template('templates.html', modo_escuro=modo_escuro)

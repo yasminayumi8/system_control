@@ -21,11 +21,14 @@
     <input id="dob" type="date" name="form_data1" maxlength="10" placeholder="dd/mm/aaaa">
 
     <p>Tipo:</p>
-
-    <input id="entrada" type="radio" name="tipo_movimentacao" value="1" checked>
-    <label for="entrada">Entrada</label>
-    <input id="saida" type="radio" name="tipo_movimentacao" value="0">
-    <label for="saida">Saída</label>
+    <div>
+        <input id="entrada" type="radio" name="tipo_movimentacao" value="1" checked>
+        <label for="entrada">Entrada</label>
+    </div>
+    <div>
+        <input id="saida" type="radio" name="tipo_movimentacao" value="0">
+        <label for="saida">Saída</label>
+    </div>
     <hr>
     <button onclick="return confirm('Confirma os dados desta movimentação? Após o cadastro não poderá ser alterado')">ADICIONAR</button>
     <button><a href="{{ url_for('pagina_cadastro_func', modo_escuro=modo_escuro) }}">Cancelar</a></button>
