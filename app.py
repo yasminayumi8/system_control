@@ -7,6 +7,7 @@ from models import Categoria, Produto, db_session, Funcionario, Movimentacao
 import plotly.express as px
 import plotly.io as pio
 
+
 def dicionario_colunas_movimentacao():
     dicion = {
         "ID_movimentacao": "ID Movimentacao",

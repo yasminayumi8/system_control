@@ -35,7 +35,7 @@ a:hover{
    /* altura*/
    height: 100vh;
    vertical-align: top;
-
+    /*background-color: #00b4d8;*/
 }
 
 
@@ -198,6 +198,22 @@ body::-webkit-scrollbar {
     margin-left: 48px;
 
 }
+.menu_cadastroTrue{
+   background-color: white;
+   /*inline-block da pra mudar o tamanho*/
+   height: 60px;
+   width: 9vw;
+   border-radius: 10px;
+   /*margin: 10px;*/
+   padding: 10px;
+   font-size: 20px;
+   /*para organizar deixar alinhado*/
+   float: left;
+   text-align: center;
+   color: #000000;
+    margin-left: 48px;
+
+}
 
 
 .menuTrue:hover{
@@ -351,7 +367,7 @@ form input, select, button{
 .mainTrue .botao{
    padding: 4px;
    background-color: white;
-   margin-top:10px;
+   margin:10px;
    border-radius: 5px;
 }
 .mainFalse .botao{
@@ -368,6 +384,7 @@ form input, select, button{
    margin-top:10px;
    border-radius: 5px;
     display: block;
+    text-align: center;
 }
 .mainFalse .botao-display-block{
    padding: 4px;
@@ -501,7 +518,11 @@ form input, select, button{
     margin-top: 20px;
     border-radius: 50px;
 }
-
-
+.numero-resultados{
+    margin: 15px;
+}
+table{
+    margin-top: 50px;
+}
 
 

@@ -59,7 +59,7 @@
         {%- for mens in get_flashed_messages()%}
             <p>{{mens}}</p>
         {%- endfor %}
-        <h2>Nº de resultados: {{numero_resultados}}</h2>
+        <h2 class="numero-resultados">Nº de resultados: {{numero_resultados}}</h2>
         {% block conteudo %}
         {% endblock %}
     </main>

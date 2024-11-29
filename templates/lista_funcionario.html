@@ -5,7 +5,7 @@
 {% endif %}
 {% endblock %}
 {% block conteudo %}
-    <a class="botao" href="{{url_for('gerar_tabela_funcionario', modo_escuro=modo_escuro)}}">Gerar tabela</a>
+    <a class="botao-display-block" href="{{url_for('gerar_tabela_funcionario', modo_escuro=modo_escuro)}}">Gerar tabela</a>
     {% for funcionario in var_funcionario %}
         {% if funcionario.status_funcionario == True %}
             <div class="card">
