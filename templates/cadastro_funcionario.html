@@ -1,15 +1,16 @@
 {% extends 'templates.html' %}
 {% block conteudo %}
-<form action="{{ url_for('cadastro_funcionarios_func', modo_escuro=modo_escuro) }}" method="POST" class="pag">
-    <label>Nome do Funcionario: </label>
-    <input type="text" name="form_nome_funcionario">
-    <label>CPF:</label>
-    <input type="number" name="form_CPF">
-    <label>Salario:</label>
-    <input type="number" name="form_salario" step="0.01">
-    <hr>
-    <button>Adicionar</button>
-    <button><a href="{{ url_for('pagina_cadastro_func', modo_escuro=modo_escuro) }}">Cancelar</a></button>
-</form>
-
+    <div class="container">
+        <form action="{{ url_for('cadastro_funcionarios_func', modo_escuro=modo_escuro) }}" method="POST" class="pag">
+            <label>Nome do Funcionario: </label>
+            <input type="text" name="form_nome_funcionario">
+            <label>CPF:</label>
+            <input type="number" name="form_CPF">
+            <label>Salario:</label>
+            <input type="number" name="form_salario" step="0.01">
+            <hr>
+            <button>Adicionar</button>
+            <a href="{{ url_for('pagina_cadastro_func', modo_escuro=modo_escuro) }}">Cancelar</a>
+        </form>
+    </div>
 {% endblock %}

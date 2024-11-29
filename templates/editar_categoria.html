@@ -5,7 +5,7 @@
     <input type="text" name="form_nome_cat" value="{{edit_categoria.nome_cat}}">
     <hr>
     <button>Salvar</button>
-    <button><a href="{{ url_for('categorias_func', modo_escuro=modo_escuro) }}">Cancelar</a></button>
+    <a href="{{ url_for('categorias_func', modo_escuro=modo_escuro) }}">Cancelar</a>
 </form>
 
 {% endblock %}

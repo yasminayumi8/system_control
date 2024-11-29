@@ -31,7 +31,7 @@
     </div>
     <hr>
     <button onclick="return confirm('Confirma os dados desta movimentação? Após o cadastro não poderá ser alterado')">ADICIONAR</button>
-    <button><a href="{{ url_for('pagina_cadastro_func', modo_escuro=modo_escuro) }}">Cancelar</a></button>
+    <a href="{{ url_for('pagina_cadastro_func', modo_escuro=modo_escuro) }}">Cancelar</a>
 </form>
 
 {% endblock %}
