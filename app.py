@@ -766,7 +766,7 @@ def dashboard_func(modo_escuro):
         c += 1
     print(dado_1)
     porcentagem = (dado_1 * 100) / total_movimentacao
-    porcentagem = int(porcentagem)
+    porcentagem = round(int(porcentagem), 2)
     print(f'{porcentagem}%')
 
     data = {
