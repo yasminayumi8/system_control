@@ -25,9 +25,18 @@
         <!--                <label for="modo-escuro">Modo Escuro</label>-->
         <!--                <input id="modo-escuro" type="checkbox" name="form-checkbox" value="True">-->
 
+<!--                            <button name="form-checkbox" value="{{modo_escuro}}" class="botao-modo-escuro">-->
+<!--                                <img src="https://static.thenounproject.com/png/4066357-200.png" alt="Light" width="10%">-->
+<!--                            </button>-->
+                        {% if modo_escuro == False or modo_escuro == 'False' %}
                             <button name="form-checkbox" value="{{modo_escuro}}" class="botao-modo-escuro">
-                                <img src="https://static.thenounproject.com/png/4066357-200.png" alt="Light" width="10%">
+                                <img src="https://cdn-icons-png.flaticon.com/512/63/63947.png" alt="Modo Escuro">
                             </button>
+                        {% else %}
+                            <button name="form-checkbox" value="{{modo_escuro}}" class="botao-modo-escuro">
+                                <img src="https://cdn-icons-png.flaticon.com/512/553/553402.png" alt="Modo Claro">
+                            </button>
+                        {% endif %}
 
                     </span>
                 </form>
