@@ -5,7 +5,12 @@
     {% endif %}
 {% endblock %}
 {% block conteudo %}
-    <a class="botao-display-block" href="{{url_for('gerar_tabela_categoria', modo_escuro=modo_escuro)}}">Gerar tabela</a>
+    <div class="box">
+        <a class="botao-display-block" href="{{url_for('gerar_tabela_categoria', modo_escuro=modo_escuro)}}">Gerar tabela</a>
+    </div>
+    <div class="box">
+        <a class="botao-display-block" href="{{url_for('cadastro_categorias_func', modo_escuro=modo_escuro)}}">Cadastrar categoria</a>
+    </div>
     <div class="container">
         {% for categoria in var_categoria %}
             <div class="card">

@@ -6,7 +6,12 @@
     {% endif %}
 {% endblock %}
 {% block conteudo %}
-    <a class="botao-display-block" href="{{url_for('gerar_tabela_movimentacao', modo_escuro=modo_escuro)}}">Gerar tabela</a>
+    <div class="box">
+        <a class="botao-display-block" href="{{url_for('gerar_tabela_movimentacao', modo_escuro=modo_escuro)}}">Gerar tabela</a>
+    </div>
+    <div class="box">
+        <a class="botao-display-block" href="{{url_for('cadastro_movimentacao_func', modo_escuro=modo_escuro)}}">Cadastrar movimentação</a>
+    </div>
     {% for movimentacao, produto, funcionario, cat in var_movimentacao %}
         <div class="card">
             <p>ID Movimentação: {{movimentacao.ID_movimentacao}}</p>

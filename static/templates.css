@@ -3,7 +3,10 @@
    margin: 0;
    padding: 0;
 }
-
+.bodyTrue, .bodyFalse{
+    margin: 0;
+    padding: 0;
+}
 
 html {
    height: 100vh;
@@ -50,6 +53,7 @@ a:hover{
    font-size: 35px;
    position: fixed;
    top: 0;
+    align-content: center;
 }
 
 
@@ -65,15 +69,17 @@ a:hover{
 
 .mainTrue{
     background-color: #111111;
-   display: inline-block;
-   /*largura da tela*/
-   width: 87vw;
-   /* altura*/
-   height: 84vh;
-   vertical-align: top;
-   color: white;
-   float: right;
-   margin-top: 100px;
+    display: inline-block;
+    /*largura da tela*/
+    width: 87vw;
+    /* altura*/
+    height: 85vh;
+    vertical-align: top;
+    color: white;
+    float: right;
+    /*margin-top: 100px;*/
+    overflow: auto;
+    margin-top: 10vh;
 }
 
 
@@ -156,9 +162,7 @@ input[type=number]::-webkit-inner-spin-button {
     -webkit-appearance: none;
 
 }
-body::-webkit-scrollbar {
-    display: none;
-}
+
 
 .menuTrue{
    background-color: #fffcfc;
@@ -291,12 +295,14 @@ form{
    /*largura da tela*/
    width: 87vw;
    /* altura*/
-   height: 100vh;
+   /*height: calc(100% - 106px);*/
+    height: 84vh;
    vertical-align: top;
    color: #000000;
    float: right;
-   margin-top: 100px;
    background-color: #caf0f8;
+    overflow: auto;
+    margin-top: 9vh;
 }
 .navFalse{
    display: inline-block;
@@ -373,7 +379,7 @@ form input, select, button{
 .mainTrue .botao{
    padding: 4px;
    background-color: white;
-   margin:30px;
+   /*margin:30px;*/
    border-radius: 5px;
 
 }
@@ -382,7 +388,7 @@ form input, select, button{
    background-color: #97d9f5;
    /*margin-top:10px;*/
    border-radius: 5px;
-   margin: 30px;
+   /*margin: 30px;*/
 }
 
 .mainTrue .botao-display-block{
@@ -591,16 +597,32 @@ form input, select, button{
 }
 .inicial {
     margin-left: 3vw;
-    margin-top: 20px;
+    margin-top: 80px;
     border-radius: 50px;
 }
 .numero-resultados{
     margin: 15px;
 }
-table{
+table {
     margin-top: 50px;
     margin-bottom: 50px;
-
 }
 
+.card a{
+    margin-bottom: 25px ;
+}
+.pesquisa-css{
+    /*vertical-align: middle;*/
+    height: 100%;
+    align-content: center;
+}
 
+main::-webkit-scrollbar {
+    display: none;
+}
+.overflow::-webkit-scrollbar {
+    display: none;
+}
+.pesquisa-css input{
+    padding: 14px;
+}

@@ -16,7 +16,7 @@
 <!--        <h1><strong>System control</strong></h1>-->
         <a href="{{url_for('dashboard_func', modo_escuro=modo_escuro)}}"><img class="icon-dashboard" src="https://cdn-icons-png.flaticon.com/512/3037/3037106.png" alt="Dashboard"></a>
 
-        <form action="{{url_for('pesquisar_func', class_=class_, modo_escuro=modo_escuro, tabela=tabela)}}" method="post">
+        <form action="{{url_for('pesquisar_func', class_=class_, modo_escuro=modo_escuro, tabela=tabela)}}" method="post" class="pesquisa-css">
             <span class="display-block">
 <!--                <h1>}</h1>-->
                 <input type="text" name="form-pesquisa" placeholder="Pesquisar">
@@ -39,7 +39,7 @@
     <nav class="nav{{modo_escuro}}">
 
 
-         <a class="menu{{modo_escuro}}" href="{{ url_for('pagina_cadastro_func', modo_escuro=modo_escuro) }}"> CADASTRO</a>
+<!--         <a class="menu{{modo_escuro}}" href="{{ url_for('pagina_cadastro_func', modo_escuro=modo_escuro) }}"> CADASTRO</a>-->
 
 
          <a class="menu{{modo_escuro}}" href="{{ url_for('categorias_func', modo_escuro=modo_escuro) }}"> Lista categoria</a>

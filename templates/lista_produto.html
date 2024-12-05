@@ -6,7 +6,12 @@
     {% endif %}
 {% endblock %}
 {% block conteudo %}
-    <a class="botao-display-block" href="{{url_for('gerar_tabela_produto', modo_escuro=modo_escuro)}}">Gerar tabela</a>
+    <div class="box">
+        <a class="botao-display-block" href="{{url_for('gerar_tabela_produto', modo_escuro=modo_escuro)}}">Gerar tabela</a>
+    </div>
+    <div class="box">
+        <a class="botao-display-block" href="{{url_for('cadastro_produtos_func', modo_escuro=modo_escuro)}}">Cadastrar produto</a>
+    </div>
     <h2>* A quantidade dos produtos em estoque é definida com as movimentações</h2>
     {% for produto, cat in var_produto %}
         <div class="card">
@@ -18,7 +23,9 @@
             <p>{{produto.data}}</p>
 
             <a class="display-block" href="{{url_for('produto_detalhes_func', id_produto=produto.ID_produto, modo_escuro=modo_escuro)}}">Mais...</a>
-            <a class="botao" href="{{url_for('editar_produtos', id_produto=produto.ID_produto, modo_escuro=modo_escuro)}}">Editar</a>
+            <div class="box">
+                <a class="botao" href="{{url_for('editar_produtos', id_produto=produto.ID_produto, modo_escuro=modo_escuro)}}">Editar</a>
+            </div>
         </div>
     {% endfor%}
 {% endblock %}

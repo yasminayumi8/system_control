@@ -1,6 +1,17 @@
 {% extends 'templates_modo_escuro.html' %}
 
 {% block conteudo %}
-    <h1>DASHBOARD</h1>
-    {{ graph_html|safe }}
+    <div class="overflow">
+        <div class="box"><h1>DASHBOARD</h1></div>
+        <div class="box">
+            <div style="float: left; z-index: 0">
+                {{ graph_html|safe }}
+            </div>
+        </div>
+        <div class="box">
+            <div style="float: left">
+                {{ graph_html2|safe }}
+            </div>
+        </div>
+    </div>
 {% endblock %}

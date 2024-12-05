@@ -675,15 +675,23 @@ def modo_escuro_func(home_):
         if valor_trocado:
             fig = px.histogram(data, x='Funcionários', y='Nº de movimentações', color='Funcionários',
                                template='plotly_dark')
+            fig.layout.update().legend.visible = False
             # convertendo grafico em html
             graph_html = pio.to_html(fig, full_html=False)
-            return render_template('dashboard.html', modo_escuro=valor_trocado, home_=False, graph_html=graph_html)
+            graph_html2 = pio.to_html(fig, full_html=False)
+            return render_template('dashboard.html', modo_escuro=valor_trocado, home_=False, graph_html=graph_html, graph_html2=graph_html2)
         else:
             fig = px.histogram(data, x='Funcionários', y='Nº de movimentações', color='Funcionários',
-                               template='seaborn')
+                               template='plotly')
+            fig.layout.update().legend.visible = False
+            fig.layout.update(
+                {'plot_bgcolor': 'rgba(0, 0, 0, 0)',
+                 'paper_bgcolor': 'rgba(0, 0, 0, 0)', }
+            )
             # convertendo grafico em html
             graph_html = pio.to_html(fig, full_html=False)
-            return render_template('dashboard.html', modo_escuro=valor_trocado, home_=False, graph_html=graph_html)
+            graph_html2 = pio.to_html(fig, full_html=False)
+            return render_template('dashboard.html', modo_escuro=valor_trocado, home_=False, graph_html=graph_html, graph_html2=graph_html2)
 
 
 @app.route('/categoria/tabela_<modo_escuro>')
@@ -753,13 +761,26 @@ def dashboard_func(modo_escuro):
     if modo_escuro == 'True':
         fig = px.histogram(data, x='Funcionários', y='Nº de movimentações', color='Funcionários', template='plotly_dark')
         # convertendo grafico em html
+        fig.layout.update().legend.visible = False
+        fig.layout.update(
+            {'plot_bgcolor': 'rgba(0, 0, 0, 0)',
+             'paper_bgcolor': 'rgba(0, 0, 0, 0)', }
+        )
         graph_html = pio.to_html(fig, full_html=False)
-        return render_template('dashboard.html', modo_escuro=modo_escuro, home_=False, graph_html=graph_html)
+        graph_html2 = pio.to_html(fig, full_html=False)
+        return render_template('dashboard.html', modo_escuro=modo_escuro, home_=False, graph_html=graph_html, graph_html2=graph_html2)
     else:
-        fig = px.histogram(data, x='Funcionários', y='Nº de movimentações', color='Funcionários', template='seaborn')
+        fig = px.histogram(data, x='Funcionários', y='Nº de movimentações', color='Funcionários', template='plotly')
         # convertendo grafico em html
+        fig.layout.update().legend.visible = False
+        fig.layout.update(
+            {'plot_bgcolor': 'rgba(0, 0, 0, 0)',
+             'paper_bgcolor': 'rgba(0, 0, 0, 0)', }
+        )
         graph_html = pio.to_html(fig, full_html=False)
-        return render_template('dashboard.html', modo_escuro=modo_escuro, home_=False, graph_html=graph_html)
+        graph_html2 = pio.to_html(fig, full_html=False)
+
+        return render_template('dashboard.html', modo_escuro=modo_escuro, home_=False, graph_html=graph_html, graph_html2=graph_html2)
 
 
 if __name__ == '__main__':
