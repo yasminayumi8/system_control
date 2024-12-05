@@ -1,7 +1,7 @@
 {% extends 'templates.html' %}
 {% block conteudo %}
 <div class="box">
-    <form action="{{ url_for('editar_produtos', id_produto=edit_produto.ID_produto, modo_escuro=modo_escuro) }}" method="POST" class="pag">
+    <form action="{{ url_for('editar_produtos', id_produto=edit_produto.ID_produto, modo_escuro=modo_escuro) }}" method="POST" class="pag{{modo_escuro}}">
         <label>Nome do produto: </label>
         <input type="text" name="form_nome" value="{{edit_produto.nome_produto}}">
 

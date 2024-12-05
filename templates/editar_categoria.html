@@ -1,7 +1,7 @@
 {% extends 'templates.html' %}
 {% block conteudo %}
 <div class="box">
-    <form action="{{ url_for('editar_categoria', id_categoria=edit_categoria.ID_categoria, modo_escuro=modo_escuro) }}" method="POST" class="pag">
+    <form action="{{ url_for('editar_categoria', id_categoria=edit_categoria.ID_categoria, modo_escuro=modo_escuro) }}" method="POST" class="pag{{modo_escuro}}">
         <label>Nome da categoria: </label>
         <input type="text" name="form_nome_cat" value="{{edit_categoria.nome_cat}}">
         <hr>
