@@ -79,7 +79,7 @@ a:hover{
     float: right;
     /*margin-top: 100px;*/
     overflow: auto;
-    margin-top: 10vh;
+    margin-top: 15vh;
 }
 
 
@@ -302,7 +302,7 @@ form{
    float: right;
    background-color: #caf0f8;
     overflow: auto;
-    margin-top: 9vh;
+    margin-top: 15vh;
 }
 .navFalse{
    display: inline-block;
