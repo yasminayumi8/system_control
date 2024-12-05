@@ -12,7 +12,7 @@ def dicionario_colunas_movimentacao():
     dicion = {
         "ID_movimentacao": "ID Movimentacao",
         "quantidade": "Quantidade",
-        "data": "Valor Consulta",
+        "data1": "Data",
         "status": "Entrada/Saída",
 
         "ID_produto": "Produto ID",
