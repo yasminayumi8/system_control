@@ -521,8 +521,9 @@ form input, select, button{
 }
 .imagem {
     float: left;
-    margin-top: 0px;
+    margin-top: 10px;
     margin-left: 20px;
+    border-radius: 80px;
 
 }
 .inicial {
@@ -535,6 +536,8 @@ form input, select, button{
 }
 table{
     margin-top: 50px;
+    margin-bottom: 50px;
+
 }
 
 
