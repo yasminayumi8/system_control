@@ -745,13 +745,30 @@ def dashboard_func(modo_escuro):
         .limit(6)
         .all()
     )
+    count_movimentacao_sql = select(Movimentacao)
+    lista_movimentacao = db_session.execute(count_movimentacao_sql).fetchall()
+    print('sql')
+    print(len(lista_movimentacao))
+    total_movimentacao = len(lista_movimentacao)
     print(resultados)
     labels = []
     dados = []
+    c = 0
+    label_1 = ''
+    dado_1 = 0
     for id_, nome, num in resultados:
+        if c == 0:
+            label_1 = '{} (#{})'.format(nome, id_)
+            dado_1 = num
         print(id_, nome, num)
         labels.append(nome)
         dados.append(num)
+        c += 1
+    print(dado_1)
+    porcentagem = (dado_1 * 100) / total_movimentacao
+    porcentagem = int(porcentagem)
+    print(f'{porcentagem}%')
+
     data = {
         'Funcionários': labels,
         'Nº de movimentações': dados
