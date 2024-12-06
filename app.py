@@ -6,7 +6,7 @@ from models import Categoria, Produto, db_session, Funcionario, Movimentacao
 # import plotly.graph_objects as go
 import plotly.express as px
 import plotly.io as pio
-
+import pandas as pd
 
 def dicionario_colunas_movimentacao():
     dicion = {
@@ -659,13 +659,28 @@ def modo_escuro_func(home_):
             .limit(6)
             .all()
         )
+        count_movimentacao_sql = select(Movimentacao)
+        lista_movimentacao = db_session.execute(count_movimentacao_sql).fetchall()
+
+        total_movimentacao = len(lista_movimentacao)
         print(resultados)
         labels = []
         dados = []
+        c = 0
+        label_1 = ''
+        dado_1 = 0
         for id_, nome, num in resultados:
+            if c == 0:
+                label_1 = '{} (#{})'.format(nome, id_)
+                dado_1 = num
             print(id_, nome, num)
             labels.append(nome)
             dados.append(num)
+            c += 1
+        print(dado_1)
+        porcentagem = (dado_1 * 100) / total_movimentacao
+        porcentagem = round(int(porcentagem), 2)
+        print(f'{porcentagem}%')
         data = {
             'Funcionários': labels,
             'Nº de movimentações': dados
@@ -679,7 +694,7 @@ def modo_escuro_func(home_):
             # convertendo grafico em html
             graph_html = pio.to_html(fig, full_html=False)
             graph_html2 = pio.to_html(fig, full_html=False)
-            return render_template('dashboard.html', modo_escuro=valor_trocado, home_=False, graph_html=graph_html, graph_html2=graph_html2)
+            return render_template('dashboard.html', modo_escuro=valor_trocado, home_=False, graph_html=graph_html, porcentagem=porcentagem, nome=label_1)
         else:
             fig = px.histogram(data, x='Funcionários', y='Nº de movimentações', color='Funcionários',
                                template='plotly')
@@ -691,7 +706,7 @@ def modo_escuro_func(home_):
             # convertendo grafico em html
             graph_html = pio.to_html(fig, full_html=False)
             graph_html2 = pio.to_html(fig, full_html=False)
-            return render_template('dashboard.html', modo_escuro=valor_trocado, home_=False, graph_html=graph_html, graph_html2=graph_html2)
+            return render_template('dashboard.html', modo_escuro=valor_trocado, home_=False, graph_html=graph_html, porcentagem=porcentagem, nome=label_1)
 
 
 @app.route('/categoria/tabela_<modo_escuro>')
@@ -769,14 +784,40 @@ def dashboard_func(modo_escuro):
     porcentagem = round(int(porcentagem), 2)
     print(f'{porcentagem}%')
 
-    data = {
+    data_ = {
         'Funcionários': labels,
         'Nº de movimentações': dados
     }
-    print(data)
+    # print(data)
+
+    # result = (
+    #     db_session.query(
+    #         func.count(Movimentacao.ID_movimentacao).label('quantidade'),
+    #         func.substr(Movimentacao.data1, 4, 2).label('mes')  # indice 4 comprimento 2 mes
+    #     )
+    #     .filter(func.substr(Movimentacao.data1, 7, 4) == '2024')  #  ano de 2024 (indice 7 e comprimento 4)
+    #     .group_by('mes')
+    #     .order_by('mes')
+    #     .all()
+    # )
+    #
+    # for row in result:
+    #     print(f"Mês: {row.mes}, Quantidade: {row.quantidade}")
+    # label_mes = []
+    # dados_mes = []
+    # for qtd, mes in result:
+    #     label_mes.append(mes)
+    #     dados_mes.append(qtd)
+    # data2 = {
+    #     'Mês': label_mes,
+    #     'Quantidade': dados_mes
+    # }
+    # Exibindo os resultados
+
+    
     # criando grafico com plotly express
     if modo_escuro == 'True':
-        fig = px.histogram(data, x='Funcionários', y='Nº de movimentações', color='Funcionários', template='plotly_dark')
+        fig = px.histogram(data_, x='Funcionários', y='Nº de movimentações', color='Funcionários', template='plotly_dark')
         # convertendo grafico em html
         fig.layout.update().legend.visible = False
         fig.layout.update(
@@ -784,20 +825,51 @@ def dashboard_func(modo_escuro):
              'paper_bgcolor': 'rgba(0, 0, 0, 0)', }
         )
         graph_html = pio.to_html(fig, full_html=False)
-        graph_html2 = pio.to_html(fig, full_html=False)
-        return render_template('dashboard.html', modo_escuro=modo_escuro, home_=False, graph_html=graph_html, graph_html2=graph_html2)
-    else:
-        fig = px.histogram(data, x='Funcionários', y='Nº de movimentações', color='Funcionários', template='plotly')
-        # convertendo grafico em html
-        fig.layout.update().legend.visible = False
-        fig.layout.update(
-            {'plot_bgcolor': 'rgba(0, 0, 0, 0)',
-             'paper_bgcolor': 'rgba(0, 0, 0, 0)', }
-        )
-        graph_html = pio.to_html(fig, full_html=False)
-        graph_html2 = pio.to_html(fig, full_html=False)
 
-        return render_template('dashboard.html', modo_escuro=modo_escuro, home_=False, graph_html=graph_html, graph_html2=graph_html2)
+        # Convertendo para um DataFrame
+        # df = pd.DataFrame(data2)
+        #
+        # # Criando o gráfico de linha
+        # fig2 = px.line(
+        #     df,
+        #     x="Mês",  # Eixo X (mês)
+        #     y="Quantidade",  # Eixo Y (quantidade de movimentações)
+        #     title="Movimentações por Mês em 2024",  # Título
+        #     # labels={"mes": "Mês", "quantidade": "Quantidade de Movimentações"},  # Rótulos dos eixos
+        #     template='plotly_dark'
+        # )
+        # fig2.layout.update().legend.visible = False
+        # graph_html2 = pio.to_html(fig2, full_html=False)
+        return render_template('dashboard.html', modo_escuro=modo_escuro, home_=False, graph_html=graph_html, porcentagem=porcentagem, nome=label_1)
+    else:
+        fig = px.histogram(data_, x='Funcionários', y='Nº de movimentações', color='Funcionários', template='plotly')
+        # convertendo grafico em html
+        fig.layout.update().legend.visible = False
+        fig.layout.update(
+            {'plot_bgcolor': 'rgba(0, 0, 0, 0)',
+             'paper_bgcolor': 'rgba(0, 0, 0, 0)', }
+        )
+        graph_html = pio.to_html(fig, full_html=False)
+
+        # Convertendo para um DataFrame
+        # df = pd.DataFrame(dados)
+        #
+        # # Criando o gráfico de linha
+        # fig2 = px.line(
+        #     df,
+        #     x="Mês",  # Eixo X (mês)
+        #     y="Quantidade",  # Eixo Y (quantidade de movimentações)
+        #     title="Movimentações por Mês em 2024",  # Título
+        #     # labels={"mes": "Mês", "quantidade": "Quantidade de Movimentações"},  # Rótulos dos eixos
+        #     template='plotly_dark'
+        # )
+        # fig2.layout.update().legend.visible = False
+        # fig2.layout.update(
+        #     {'plot_bgcolor': 'rgba(0, 0, 0, 0)',
+        #      'paper_bgcolor': 'rgba(0, 0, 0, 0)', }
+        # )
+        # graph_html2 = pio.to_html(fig2, full_html=False)
+        return render_template('dashboard.html', modo_escuro=modo_escuro, home_=False, graph_html=graph_html, porcentagem=porcentagem, nome=label_1)
 
 
 if __name__ == '__main__':
